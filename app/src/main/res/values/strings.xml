@@ -10,4 +10,121 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="calculate">Calculate</string>
+    <string name="search_reaction">Find a reaction</string>
+    <string name="lang">Language</string>
+    <string name="share_string">Share</string>
+    <string name="periodic">Periodic Table</string>
+    <string name="history">History</string>
+    <string name="clear_history">Clear History</string>
+    <string name="rate_stars">Rate 5 Stars</string>
+    <string name="clr">Clear</string>
+    <string name="stoch">Stoichiometry</string>
+    <string name="export">Export to file</string>
+    <string name="balance">Balance</string>
+    <string name="clear_all">Clear All</string>
+    <string name="taken">Taken Mass</string>
+    <string name="reactant">Reactants</string>
+    <string name="products">Products</string>
+    <string name="resid">Residue</string>
+    <string name="tap_eqn">Tap Equation to Copy or  View Element properties</string>
+    <string name="copy">Long press to select and copy</string>
+    <string name="eqn_sel">Select Equation</string>
+    <string name="no_his">Nothing to show!</string>
+    <string name="equal_err">More than one equal signs in equation.</string>
+    <string name="sel_elem">Select Element to view </string>
+    <string name="inval_elem">Not a valid element</string>
+    <string name="plus_error">Plus sign expected.</string>
+    <string name="no_sol">No solution found please check equation.</string>
+    <string name="rate">Rate application</string>
+    <string name="rate_ques">Would you like to rate the app in PlayStore?</string>
+    <string name="nothanks">No Thanks</string>
+    <string name="yes">Yes Open PlayStore</string>
+    <string name="utla_rxn">Either reactant(s) or product written on wrong sides</string>
+    <string name="scroll_hint">Tap on Taken Mass column to edit the reacting quantity or get required reactant weights by entering desired product weights</string>
+    <string name="no_proper">Equation is not in proper form!</string>
+    <string name="bracket_err">Uneven brackets!</string>
+    <string name="eql_miss">Equal sign missing!</string>
+    <string name="plus_miss">Mismatched number of plus signs!</string>
+    <string name="gr">Mass in gram</string>
+    <string name="mgr">Mass in mg</string>
+    <string name="expoerted">File Save Successful!</string>
+    <string name="notif_expand">Expand to Open or Send file</string>
+    <string name="open_string">Open</string>
+    <string name="give_permission">You need to give permission to access storage in order to write the file.</string>
+    <string name="invalid_elem">Invalid elements in string.</string>
+    <string name="moles">Moles</string>
+    <string name="millimoles">Milli-moles</string>
+    <string name="place_after">Places after decimal</string>
+    <string name="excel_prompt">The file can be opened in Excel or Google sheets.</string>
+    <string name="filename">Choose a Filename :</string>
+    <string name="save_string">Save</string>
+    <string name="cancel_string">Cancel</string>
+    <string name="export_data">Export Data :</string>
+    <string name="cleared">Cleared !</string>
+    <string name="limit">Limiting Reagent </string>
+    <string name="molar_mass">Find Molar Mass</string>
+    <string name="pref_header_general" translatable="false">General</string>
+    <string name="pref_title_social_recommendations" translatable="false">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations" translatable="false">Recommendations for people to contact</string>
+    <string name="pref_title_display_name" translatable="false">Display name</string>
+    <string name="pref_default_display_name" translatable="false">John Smith</string>
+    <string name="pref_title_add_friends_to_messages" translatable="false">Add friends to messages</string>
+    <string name="pref_header_data_sync" translatable="false">Data  sync</string>
+    <string name="pref_title_sync_frequency" translatable="false">Sync frequency</string>
+    <string name="pref_title_system_sync_settings" translatable="false">System sync settings</string>
+    <string name="pref_header_notifications" translatable="false">Notifications</string>
+    <string name="pref_title_new_message_notifications" translatable="false">New message notifications</string>
+    <string name="pref_title_ringtone" translatable="false">Ringtone</string>
+    <string name="pref_ringtone_silent" translatable="false">Silent</string>
+    <string name="pref_title_vibrate" translatable="false">Vibrate</string>
+    <string name="title_activity_set2_ativity" translatable="false">set2Ativity</string>
+    <string name="privacy">Privacy</string>
+    <string name="anal" translatable="false">Analytics</string>
+    <string name="anal_details" translatable="false">Tap to view Privacy Policy online. Our app uses Google Firebase to collect additional information about demographics and app usage. This information helps us improve our app. All this information is anonymous and connot be used to identify the user. We do not sell any data to third parties.</string>
+    <string name="ads" translatable="false">Advertisements</string>
+    <string name="ads_details" translatable="false">We use advertisements in our app to keep them free for you to use. All our ads are served by Admob. Google might collect personal data depening on your privacy settings.</string>
+    <string name="sciencedata" translatable="false">Scientific Data</string>
+    <string name="search_by_products" translatable="false">Products</string>
+    <string name="search_by_reagents" translatable="false">Reagents</string>
+    <string name="helper"><b> • </b> Always use proper chemical symbols.
+    Examples: Fe, Au, Co, Br, C, O, N, F. Compare: Co-cobalt and CO-carbon monoxide.
+    \n <b> • Do not put coefficients in front of the molecules. </b>
+    \n  The stoichiometry of the reaction could be calculated for a balanced equation.
+    <b> • </b> Compound states [such as (aq) or (g)] are not required.
+        \n <b> • </b> Enter groups like water of crystallization, with the number of molecules at the end of the parentheses \n
+    i.e. CuSO4.5H2O should be <b> CuSO4(H2O)5 </b> \n
+   </string>
+    <string name="sciDataSource" translatable="false">All Scientific Data is taken from reputed sources, with majority of data from <a href="http://pypi.org/project/periodictable/#description">NIST Python Periodic table project </a>.\n Descriptions and some values are also taken from respective Wikipedia pages. </string>
+    <string name="trouble">Having some trouble ?</string>
+    <string name="trouble2">Looks like you are having some trouble entering the equation, or maybe the app isn\'t working as it should. Would you like to submit a bug report?</string>
+    <string name="bugrepoty">Send bug report</string>
+    <string name="nightly">Night Mode</string>
+    <string name="subs_title">How would you like to pay?</string>
+    <string name="subs_subs">$1    Subscription  (6 months)</string>
+    <string name="subs_one_time">$1.5 One Time Purchase</string>
+    <string name="unable_to_bal">Unable to balance ! Would you like to search for it ? </string>
+    <string name="unable_to_bal_reason">Some equations,which are a combination of multiple reactions, cannot be balanced, but you can see a balanced equation in search.</string>
+    <string name="therm_data">Thermodynamic Data :</string>
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="title_activity_privacyinfo" translatable="false">Privacy</string>
+    <string name="double_displace">Reaction is a combination of two or more reactions.</string>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="title_activity_mass_finder" translatable="false">mass_finder</string>
+    <string name="title_activity_main_test" translatable="false">MainTestActivity</string>
+
+
+    <string name="copy_mass_and_formula">Copy Mass and Formula</string>
+    <string name="copy_mass_only">Copy Mass Only</string>
+    <string name="copy_name_s">Copy Name(s)</string>
+    <string name="copy_name_pro_only">Copy Name (Pro Only)</string>
+    <string name="enable_pro_mode">Enable Pro Mode</string>
+    <string name="copy_mass_pro_only">Copy Mass (Pro Only)</string>
+    <string name="examples">Examples</string>
+    <string name="request">Request Feature</string>
+    <string name="mass_example">e.g: Al2O3 or C2H50H , Na2CO3+Ca(OH)2</string>
+    <string name="chemical_compound">Chemical Compound:</string>
 </resources>

@@ -7,4 +7,44 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+   <!---
+    <color name="colorPrimary">#ff8c00</color>
+    <color name="colorPrimaryDark">#ce7100</color>
+    <color name="colorAccent">#492800</color>
+    <color name="drawer_back">#404040</color>
+    <color name="colorPrimary">#CB997E</color>-->
+
+    <color name="colorPrimary">#FF9966</color>              <!-- Pastel Orange -->
+    <color name="colorPrimaryVariant">#FF9966</color>              <!-- Pastel Orange -->
+    <color name="colorPrimaryDark">#FF7733</color>          <!-- Darker Orange -->
+    <color name="colorPrimaryLight">#FFCC99</color>         <!-- Light Orange -->
+    <color name="colorAccent">#FF5500</color>               <!-- Vibrant Orange -->
+    <color name="colorBackground">#FFF6E9</color>           <!-- Very Light Orange -->
+    <color name="colorBackgroundGradientStart">#FFF0E0</color>
+    <color name="colorBackgroundGradientEnd">#FFF9F0</color>
+    <color name="colorSurface">#FFFFFF</color>              <!-- White Surface -->
+    <color name="colorOnPrimary">#FFFFFF</color>            <!-- White text on primary -->
+    <color name="colorOnSurface">#333333</color>            <!-- Dark text on surface -->
+    <color name="colorElementBackground">#F5F5F5</color>    <!-- Light Gray for Elements -->
+
+    <!-- Dark Theme Colors -->
+    <color name="colorPrimaryDark_Night">#FF8844</color>           <!-- Brighter Orange for Dark Theme -->
+    <color name="colorPrimaryDarkDark_Night">#FF6622</color>       <!-- Vibrant Orange for Dark Theme -->
+    <color name="colorPrimaryLight_Night">#FF9966</color>          <!-- Light Orange for Dark Theme -->
+    <color name="colorAccent_Night">#FFAA77</color>                <!-- Softer Orange for Dark Theme -->
+    <color name="colorBackground_Night">#222222</color>            <!-- Dark Background -->
+    <color name="colorBackgroundGradientStart_Night">#1A1A1A</color>
+    <color name="colorBackgroundGradientEnd_Night">#2D2D2D</color>
+    <color name="colorSurface_Night">#333333</color>               <!-- Dark Surface -->
+    <color name="colorOnPrimary_Night">#333333</color>             <!-- Dark text on primary -->
+    <color name="colorOnSurface_Night">#F1F1F1</color>             <!-- Light text on surface -->
+    <color name="colorElementBackground_Night">#444444</color>     <!-- Dark Gray for Elements -->
+
+    <color name="highlight_color_search_by_products">#4bf7ff00</color>
+    <color name="highlight_color_search_by_reagents">#e9e988</color>
+    <color name="reactions_chain_highlight_color">#4bf7ff00</color>
+    <color name="highlight_coefficients_in_balanced_equation">#ff9310</color>
+    <color name="text_color_primary">#000000</color>
+    <color name="box_back">#fffdfd</color>
+    <color name="backMain">#adadad</color>
 </resources>

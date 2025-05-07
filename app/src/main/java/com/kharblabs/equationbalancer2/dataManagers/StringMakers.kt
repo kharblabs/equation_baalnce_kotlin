@@ -1,6 +1,14 @@
 package com.kharblabs.equationbalancer2.dataManagers
 
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.SubscriptSpan
+import com.kharblabs.equationbalancer2.chemicalPlant.ElementColors
+
 class StringMakers {
+
     fun converttoHTML(s: String): String {
         var s2 = ""
         //s= "Al2O3";
@@ -13,6 +21,67 @@ class StringMakers {
                 else s2 + x
         }
         return s2
+    }
+    fun converttoSpannable(s: String, digitColor: Int? = null): SpannableStringBuilder {
+        val elementColors = ElementColors().elementColors
+        val result = SpannableStringBuilder()
+        val parts = s.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)".toRegex())
+
+        for (part in parts) {
+            val start = result.length
+            result.append(part)
+
+            when {
+                part.matches("\\d+".toRegex()) -> {
+                    result.setSpan(SubscriptSpan(), start, result.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    result.setSpan(RelativeSizeSpan(0.75f), start, result.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    digitColor?.let {
+                        result.setSpan(ForegroundColorSpan(it), start, result.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    }
+                }
+                elementColors.containsKey(part) -> {
+                    result.setSpan(ForegroundColorSpan(elementColors[part]!!), start, result.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+            }
+        }
+
+        return result
+    }
+    fun convertToSpannable_newCheck(s: String, digitColor: Int? = null, colorMap: Map<String, Int>): SpannableStringBuilder {
+        val result = SpannableStringBuilder()
+        val elementColors = ElementColors().elementColors
+        // Regex: Match element symbols (e.g. H, He), numbers, and parentheses
+        val regex = Regex("([A-Z][a-z]?|\\d+|\\(|\\))")
+        val parts = regex.findAll(s)
+
+        for (match in parts) {
+            val part = match.value
+            val start = result.length
+            result.append(part)
+
+            when {
+                part.matches("\\d+".toRegex()) -> {
+                    result.setSpan(SubscriptSpan(), start, result.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    result.setSpan(RelativeSizeSpan(0.75f), start, result.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    digitColor?.let {
+                        result.setSpan(ForegroundColorSpan(it), start, result.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    }
+                }
+                elementColors.containsKey(part) -> {
+                    colorMap[part]?.let {
+                        result.setSpan(
+                            ForegroundColorSpan(it),
+                            start,
+                            result.length,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                    }
+                }
+                }
+
+        }
+
+        return result
     }
     fun LatexMaker(LHS: ArrayList<String>, RHS: ArrayList<String>, Vals: IntArray): String {
         var latexOut = "$\$K_{c} = \\frac{"

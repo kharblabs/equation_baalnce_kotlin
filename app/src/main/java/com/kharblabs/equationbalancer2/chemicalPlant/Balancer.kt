@@ -1,12 +1,18 @@
 package com.kharblabs.equationbalancer2.chemicalPlant
 
+import android.graphics.Typeface
 import android.text.Html
 import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.StyleSpan
 import com.kharblabs.equationbalancer2.dataManagers.StringMakers
 import kotlin.math.abs
+import androidx.core.graphics.toColorInt
+import kotlin.math.roundToInt
 
 class Balancer  {
     var chemUtils =ChemUtils()
+    val generalMaths = GeneralMaths()
     val stringMakers = StringMakers()
     var equation :String = ""
     var stochiometry =Stochiometry()
@@ -56,7 +62,7 @@ class Balancer  {
     fun balancer(equation: String) :ThreadResult
     {
         var balResult: sanitisedResult = sanitisedResult("", "NO EQN", false)
-        var threadResult = ThreadResult(null, null, null, 0, null, null, "", null)
+        var threadResult = ThreadResult(null, null, null, 0, null, null, "", null,null)
         var sanitised = EquationCleaner(equation)
         if (!sanitised.result) {
             threadResult.error=sanitised.error
@@ -238,13 +244,9 @@ class Balancer  {
             solver[allElments.size - 1] = 1.0
         }
         var counter = 0
-        {
-            i = 0
-            while (i < ALS!!.size) {
+        for (i in solver.indices) {
                 solver[i] = abs(solver[i])
-                i++
             }
-        }
         for (x in solver) {
             counter++
             if (counter == ALS!!.size) {
@@ -285,8 +287,8 @@ class Balancer  {
 
 
             for (ai in 0..<newLength) {
-                denoms[ai] = mat2.GetDenom(solver[ai])
-                lcm = lcm * mat2.GetDenom(solver[ai])
+                denoms[ai] = generalMaths.GetDenom(solver[ai])
+                lcm = lcm * generalMaths.GetDenom(solver[ai])
             }
             for (a2 in 0..<newLength) {
                 solver[a2] = solver[a2] * lcm
@@ -294,20 +296,24 @@ class Balancer  {
             var solver2 = IntArray(solver.size)
             var ia = 0
             for (x in solver) {
-                solver2[ia] = Math.round(solver[ia]).toInt()
+                solver2[ia] = solver[ia].roundToInt().toInt()
                 ia++
             }
-            val gc: Int = findGcd(solver2)
+            val gc: Int = generalMaths.findGcd(solver2)
+            threadResult.beforeGCD=solver2
             for (a2 in 0..<newLength) {
-                solver2[a2] = solver2.get(a2) / gc
+                solver2[a2] = solver2[a2] / gc
             }
-
+           /* val normalised = generalMaths.convertToIntegerRatios(solver.toMutableList())
+            var solver2 = normalised.toIntArray()
+           */
             // Buliding final string
 
             threadResult.resultType = 1
             val els = allElments.keys.toTypedArray<String>()
             threadResult.elementlist = els
-            threadResult.resulting = null
+            //threadResult.resulting = buildspan(solver,solver2,newLength,mat2)
+            threadResult.resulting = formatChemicalEquation(solver,solver2,newLength,mat2, "#2196F3".toColorInt(),lhsElements.keys)
             threadResult.simplyfystring=    simpleStringResultBuilder(solver,solver2,newLength,mat2)
             threadResult.aLS = ALS
             threadResult.lHS = LHS
@@ -348,6 +354,12 @@ class Balancer  {
          }
 
     }
+
+    fun convertFloatArrayToInt(inputArray : DoubleArray) : IntArray
+    { var outputArray = IntArray(inputArray.size)
+
+        return outputArray
+    }
     fun simpleStringResultBuilder(solver: DoubleArray, solver2:IntArray, newLength:Int, mat2:Matrix): String
     {var biulter  :String = ""
         var i=0
@@ -382,7 +394,7 @@ class Balancer  {
         }
     return biulter
     }
-    fun buildspan(solver: IntArray,solver2:IntArray,newLength:Int,mat2:Matrix)
+    fun buildspan(solver: DoubleArray, solver2:IntArray, newLength:Int, mat2:Matrix):SpannableStringBuilder
     {val biulter = SpannableStringBuilder("")
         var i=0
         if (!allEqualSol) {
@@ -390,7 +402,7 @@ class Balancer  {
             while (i < ALS!!.size) {
                 biulter.append("  ")
                 if (solver[i].toInt() != 1) {
-                    val a: Int = solver2.get(i)
+                    val a: Int = solver2[i]
                     biulter.append(Html.fromHtml("<b>$a</b>"))
                 }
 
@@ -406,7 +418,7 @@ class Balancer  {
             while (i < newLength) {
                 biulter.append("  ")
                 if (solver[i].toInt() != 1) {
-                    val a: Int = solver2.get(i)
+                    val a: Int = solver2[i]
                     biulter.append(Html.fromHtml("<b>$a</b>"))
                 }
 
@@ -417,7 +429,45 @@ class Balancer  {
                 if (i == LHS!!.size - 1) biulter.append("  =  ")
                 i++
             }
-        }}
+        }
+      return biulter
+    }
+    fun formatChemicalEquation(
+        solver: DoubleArray,
+        solver2: IntArray,
+        newLength: Int,
+        mat2: Matrix,
+        digitColor: Int? = null,
+        keys: MutableSet<String>
+    ): SpannableStringBuilder {
+        val LHSSize= LHS?.size
+        val result = SpannableStringBuilder()
+        val length = if (!allEqualSol) ALS?.size else newLength
+
+        val colorMap= ElementColors().assignPastelColors(keys.toMutableList())
+        for (i in 0 until length!!) {
+            result.append("  ")
+
+            if (solver[i].toInt() != 1) {
+                val coeff = solver2[i].toString()
+                val start = result.length
+                result.append(coeff)
+                result.setSpan(StyleSpan(Typeface.BOLD), start, result.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+
+          //  result.append(stringMakers.converttoSpannable(ALS!![i], digitColor))
+            result.append(stringMakers.convertToSpannable_newCheck(ALS!![i],digitColor, colorMap))
+
+            val isLastOnLHS = i == LHSSize?.minus(1)
+            val isLastOverall = i == length - 1
+
+            if (!isLastOverall) {
+                result.append(if (isLastOnLHS) " = " else " +")
+            }
+        }
+
+        return result
+    }
 
     fun LHSElements(lhs: ArrayList<String>?): HashMap<String, Float>? {
         try {
@@ -460,41 +510,7 @@ class Balancer  {
 
         //      }    return  ElementsAS;
     }
-    fun findGcd(numbers: IntArray): Int {
-        //Find the smallest integer in the number list
 
-        if (numbers[numbers.size - 1] == 0) {
-            numbers[numbers.size - 1] = numbers[numbers.size - 2]
-        }
-        var smallest = numbers[0]
-
-        for (i in 1..<numbers.size) {
-            if (numbers[i] < smallest) {
-                smallest = numbers[i]
-            }
-        }
-
-        //Find the GCD
-        while (smallest > 1) {
-            var counter = 0
-            var modTot = 0
-
-            while (counter < numbers.size) {
-                modTot += numbers[counter] % smallest
-                counter++
-            }
-
-            if (modTot == 0) {
-                //Return the gcd if any
-                return smallest
-            }
-
-            //System.out.print(" "+ smallest);
-            smallest--
-        }
-        //return -1 if there is no gcd
-        return 1
-    }
 
 
 

@@ -49,6 +49,12 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx);
     implementation(libs.keatex)
+    implementation(libs.autotext)
+    implementation(libs.mockito)
+    implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.room.common.jvm)
+    implementation(libs.androidx.activity)
     testImplementation(libs.junit)
     testImplementation(libs.junit.junit)
 

@@ -3,19 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_equation">
 
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@+id/nav_equation"
         android:name="com.kharblabs.equationbalancer2.ui.EquationBal.HomeFragment"
-        android:label="@string/menu_home"
+        android:label="Equation"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.kharblabs.equationbalancer2.ui.gallery.GalleryFragment"
+        android:label="Mass"
+        tools:layout="@layout/fragment_molar_mass2" />
+
+    <fragment
+        android:id="@+id/nav_molarmass"
+        android:name="com.kharblabs.equationbalancer2.ui.molarMass.molarMass"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_molar_mass2" />
 
     <fragment
         android:id="@+id/nav_slideshow"

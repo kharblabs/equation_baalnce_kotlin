@@ -12,7 +12,8 @@ class ThreadResult(
     var resulting: SpannableStringBuilder?,
     var results: IntArray?,
     var error: String,
-    var elementlist: Array<String>?
+    var elementlist: Array<String>?,
+    var beforeGCD: IntArray?
 ) {
     var valid: Boolean = false
     var LatexString: String = ""

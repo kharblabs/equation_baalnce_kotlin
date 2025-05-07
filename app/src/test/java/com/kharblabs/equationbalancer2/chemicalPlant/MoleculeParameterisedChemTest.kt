@@ -1,5 +1,6 @@
 package com.kharblabs.equationbalancer2.chemicalPlant
 
+import com.kharblabs.equationbalancer2.dataManagers.MoleculeEntry
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -41,7 +42,8 @@ class BalanceParameterisedTest(val input:String) {
         val bal=Balancer()
 
         val result = bal.balancer((input))
-        print("result==  "+ result.resultType.toString()+ " error"+result.error+"  "+input)
+        //print("result==  "+ result.resultType.toString()+ " error"+result.error+"  "+input)
+        print("\""+result.source+"\""+" to intArrayOf("+ result.beforeGCD?.joinToString(", ") +")," )
         assertEquals(1,result.resultType)
 
     }
