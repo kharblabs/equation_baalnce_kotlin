@@ -159,110 +159,110 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/inputCard">
-    <LinearLayout
-        android:id="@+id/texterholder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/box_back"
-        android:orientation="vertical"
-        android:paddingBottom="2sp"
-        android:backgroundTint="@color/cardview_light_background"
-
-        tools:layout_editor_absoluteX="2dp">
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@color/box_back"
-
-            android:text="Input:"
-            android:textAlignment="center"
-            android:textSize="12sp" />
-
-        <TextView
-
-        android:id="@+id/outputInputShow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-            android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="12sp"
-            android:autoSizeMaxTextSize="16sp"
-            android:autoSizeStepGranularity="1sp"
-            android:padding="10sp"
-        android:layout_weight="1"
-        android:background="@color/box_back"
-
-        android:text="@string/tap_eqn"
-        android:textAlignment="center"
-        android:textSize="16sp"
-            android:layout_marginBottom="10sp"/>
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@color/box_back"
-
-            android:text="Balanced :"
-            android:textAlignment="center"
-            android:textSize="12sp" />
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:id="@+id/thermoCard"
-            android:layout_height="wrap_content"
-            android:layout_margin="5sp"
-            app:cardCornerRadius="12sp"
-            android:elevation="2dp"
-
-
-            >
-            <!---
-        <com.lb.auto_fit_textview.AutoResizeTextView
-            android:id="@+id/result_texter"
+        <LinearLayout
+            android:id="@+id/texterholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:filterTouchesWhenObscured="false"
-            android:lineSpacingExtra="4dp"
-            android:longClickable="false"
-            android:padding="16dp"
-            android:textAlignment="center"
-            android:textColor="@color/text_color_primary"
-
-            android:textIsSelectable="false"
-            android:textSize="20sp" /> -->
+            android:background="@color/box_back"
+            android:orientation="vertical"
+            android:paddingBottom="2sp"
+            android:backgroundTint="@color/cardview_light_background"
+            android:animateLayoutChanges="true"
+            tools:layout_editor_absoluteX="2dp">
             <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@color/box_back"
+
+                android:text="Input:"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+
+            <TextView
+
+                android:id="@+id/outputInputShow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="16sp"
+                android:autoSizeStepGranularity="1sp"
+                android:padding="10sp"
+                android:layout_weight="1"
+                android:background="@color/box_back"
+
+                android:text="@string/tap_eqn"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:layout_marginBottom="10sp"/>
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@color/box_back"
+
+                android:text="Balanced :"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:id="@+id/thermoCard"
+                android:layout_height="wrap_content"
+                android:layout_margin="5sp"
+                app:cardCornerRadius="12sp"
+                android:elevation="2dp"
+
+
+                >
+                <!---
+            <com.lb.auto_fit_textview.AutoResizeTextView
                 android:id="@+id/result_texter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:filterTouchesWhenObscured="false"
+                android:lineSpacingExtra="4dp"
+                android:longClickable="false"
                 android:padding="16dp"
                 android:textAlignment="center"
                 android:textColor="@color/text_color_primary"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="12sp"
-                android:autoSizeMaxTextSize="20sp"
-                android:autoSizeStepGranularity="1sp"
-                android:textSize="20sp"/>
-        </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/hinter"
-            android:layout_width="wrap_content"
-            android:layout_height="0sp"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@color/box_back"
+                android:textIsSelectable="false"
+                android:textSize="20sp" /> -->
+                <TextView
+                    android:id="@+id/result_texter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/text_color_primary"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeMaxTextSize="20sp"
+                    android:autoSizeStepGranularity="1sp"
+                    android:textSize="20sp"/>
+            </androidx.cardview.widget.CardView>
 
-            android:text="@string/tap_eqn"
-            android:textAlignment="center"
-            android:textSize="12sp" />
+            <TextView
+                android:id="@+id/hinter"
+                android:layout_width="wrap_content"
+                android:layout_height="0sp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@color/box_back"
+
+                android:text="@string/tap_eqn"
+                android:textAlignment="center"
+                android:textSize="12sp" />
 
 
-    </LinearLayout>
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -275,23 +275,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/output_hodler">
-    <TextView
-        android:id="@+id/Tipper"
+        <TextView
+            android:id="@+id/Tipper"
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
 
-        android:lineSpacingMultiplier="1.5"
-        android:lines="35"
+            android:lineSpacingMultiplier="1.5"
+            android:lines="35"
 
-        android:paddingLeft="10sp"
-        android:paddingRight="10sp"
-        android:textAlignment="textStart"
-        android:visibility="visible"
-        android:text="@string/helper"
-        app:layout_constraintTop_toBottomOf="@id/inputCard"
-        tools:layout_editor_absoluteX="46dp" />
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            android:textAlignment="textStart"
+            android:visibility="visible"
+            android:text="@string/helper"
+            app:layout_constraintTop_toBottomOf="@id/inputCard"
+            tools:layout_editor_absoluteX="46dp" />
     </androidx.cardview.widget.CardView>
 
     <ScrollView
@@ -328,14 +328,14 @@
                     android:layout_margin="5sp"
                     app:cardCornerRadius="5sp"
                     app:cardElevation="5sp">
-                <katex.hourglass.in.mathlib.MathView
-                    android:id="@+id/text_latex"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:textAlignment="center"
-                    android:textSize="16sp" />
+                    <katex.hourglass.in.mathlib.MathView
+                        android:id="@+id/text_latex"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:textAlignment="center"
+                        android:textSize="16sp" />
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -347,25 +347,25 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:paddingTop="10dp"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:paddingTop="10dp"
 
-                    android:text="@string/therm_data"
-                    android:textColor="@color/text_color_primary"
-                    android:textSize="14dp" />
+                            android:text="@string/therm_data"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="14dp" />
 
-                <TextView
-                    android:id="@+id/thermoData"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="20dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="20dp"
-                    android:layout_gravity="bottom"
-                    android:text=" " />
+                        <TextView
+                            android:id="@+id/thermoData"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="20dp"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="20dp"
+                            android:layout_gravity="bottom"
+                            android:text=" " />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
@@ -374,178 +374,178 @@
                     android:layout_margin="5sp"
                     app:cardCornerRadius="5sp"
                     app:cardElevation="5sp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                   >
-                <LinearLayout
-                    android:id="@+id/linearLayoutStoch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:elevation="5sp"
-                    android:layout_marginBottom="5sp"
-                    tools:layout_editor_absoluteX="0dp">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="0.4"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:paddingTop="5dp"
-                    android:text="@string/stoch"
-
-                    android:textColor="@color/text_color_primary"
-                    android:textSize="14sp" />
-                    <CheckBox
-                        android:layout_width="0dp"
-                        android:layout_weight="0.4"
-                        android:id="@+id/limitChecker"
-                        android:layout_height="wrap_content"
-                        android:text="Limiting Reagents"/>
-                </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/limitingReagentName"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.25"
+                        android:orientation="vertical"
+                        >
+                        <LinearLayout
+                            android:id="@+id/linearLayoutStoch"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:elevation="5sp"
+                            android:layout_marginBottom="5sp"
+                            tools:layout_editor_absoluteX="0dp">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_weight="0.4"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:paddingTop="5dp"
+                                android:text="@string/stoch"
 
-                        android:gravity="center_vertical"
-                        android:text="Limiting Reagent : "
-                        android:textAlignment="center"
-                        android:textSize="16sp"
-                        android:textStyle="italic"
-                        tools:visibility="gone" />
-
-                    <LinearLayout
-                    android:id="@+id/linearLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                     android:elevation="2sp"
-                    tools:layout_editor_absoluteX="0dp">
-
-                    <TextView
-                        android:id="@+id/list_item"
-                        android:layout_width="70sp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.25"
-
-                        android:gravity="center_vertical"
-                        android:text="Molecule"
-                        android:textAlignment="center"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/gramper"
-                        android:layout_width="60sp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.25"
-                        android:gravity="center_vertical"
-                        android:text="gm/mole"
-                        android:textAlignment="center"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/moles"
-                        android:layout_width="40sp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.15"
-
-                        android:gravity="center_vertical"
-                        android:text="Moles"
-                        android:textAlignment="center"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/moles2"
-                        android:layout_width="40sp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.25"
-
-                        android:gravity="center_vertical"
-                        android:text="@string/moles"
-                        android:textAlignment="center"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <com.lb.auto_fit_textview.AutoResizeTextView
-
-                        android:layout_width="60sp"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="10sp"
-                        android:layout_weight="0.25"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="8sp"
-                        android:paddingRight="8sp"
-                        android:text="@string/taken"
-                        android:textAlignment="center"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                                android:textColor="@color/text_color_primary"
+                                android:textSize="14sp" />
+                            <CheckBox
+                                android:layout_width="0dp"
+                                android:layout_weight="0.4"
+                                android:id="@+id/limitChecker"
+                                android:layout_height="wrap_content"
+                                android:text="Limiting Reagents"/>
+                        </LinearLayout>
 
                         <TextView
-                            android:id="@+id/residueHeader"
-                            android:layout_width="60sp"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="10dp"
+                            android:id="@+id/limitingReagentName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_weight="0.25"
+
                             android:gravity="center_vertical"
-                            android:paddingRight="8sp"
-                            android:text="@string/resid"
+                            android:text="Limiting Reagent : "
                             android:textAlignment="center"
                             android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:visibility="gone" />
-                </LinearLayout>
+                            android:textStyle="italic"
+                            tools:visibility="gone" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:paddingLeft="20dp"
-                    android:text="@string/reactant"
-                    android:textColor="@android:color/background_dark"
-                    android:textSize="12sp" />
+                        <LinearLayout
+                            android:id="@+id/linearLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:elevation="2sp"
+                            tools:layout_editor_absoluteX="0dp">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/moleculeRecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="0dp"
-                    android:layoutAnimation="@anim/layout_anim_fall_down"
-                    android:paddingLeft="0dp"
-                    android:paddingRight="10sp"
-                    android:visibility="visible"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-                    tools:layout_editor_absoluteX="8dp">
+                            <TextView
+                                android:id="@+id/list_item"
+                                android:layout_width="70sp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.25"
+
+                                android:gravity="center_vertical"
+                                android:text="Molecule"
+                                android:textAlignment="center"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/gramper"
+                                android:layout_width="60sp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.25"
+                                android:gravity="center_vertical"
+                                android:text="gm/mole"
+                                android:textAlignment="center"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/moles"
+                                android:layout_width="40sp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.15"
+
+                                android:gravity="center_vertical"
+                                android:text="Moles"
+                                android:textAlignment="center"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/moles2"
+                                android:layout_width="40sp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.25"
+
+                                android:gravity="center_vertical"
+                                android:text="@string/moles"
+                                android:textAlignment="center"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <com.lb.auto_fit_textview.AutoResizeTextView
+
+                                android:layout_width="60sp"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="10sp"
+                                android:layout_weight="0.25"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="8sp"
+                                android:paddingRight="8sp"
+                                android:text="@string/taken"
+                                android:textAlignment="center"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/residueHeader"
+                                android:layout_width="60sp"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="10dp"
+                                android:layout_weight="0.25"
+                                android:gravity="center_vertical"
+                                android:paddingRight="8sp"
+                                android:text="@string/resid"
+                                android:textAlignment="center"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:paddingLeft="20dp"
+                            android:text="@string/reactant"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="12sp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/moleculeRecycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="0dp"
+                            android:layoutAnimation="@anim/layout_anim_fall_down"
+                            android:paddingLeft="0dp"
+                            android:paddingRight="10sp"
+                            android:visibility="visible"
+                            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+                            tools:layout_editor_absoluteX="8dp">
 
 
-                </androidx.recyclerview.widget.RecyclerView>
+                        </androidx.recyclerview.widget.RecyclerView>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
-                    android:text="@string/products"
-                    android:textColor="@android:color/background_dark"
-                    android:textSize="12sp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="20dp"
+                            android:text="@string/products"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="12sp" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/productRecycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="0dp"
-                    android:layoutAnimation="@anim/layout_anim_fall_down"
-                    android:paddingLeft="0dp"
-                    android:paddingRight="0dp"
-                    app:layout_constraintTop_toBottomOf="parent"
-                    tools:layout_editor_absoluteX="8dp" />
-                </LinearLayout>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/productRecycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="0dp"
+                            android:layoutAnimation="@anim/layout_anim_fall_down"
+                            android:paddingLeft="0dp"
+                            android:paddingRight="0dp"
+                            app:layout_constraintTop_toBottomOf="parent"
+                            tools:layout_editor_absoluteX="8dp" />
+                    </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <TextView
                     android:layout_width="match_parent"

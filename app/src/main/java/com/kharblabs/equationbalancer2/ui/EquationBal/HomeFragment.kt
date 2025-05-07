@@ -26,12 +26,14 @@ import com.kharblabs.equationbalancer2.dataManagers.AssetFileReader
 import com.kharblabs.equationbalancer2.dataManagers.MoleculeAdapter
 import com.kharblabs.equationbalancer2.dataManagers.MoleculeFragementListner
 import com.kharblabs.equationbalancer2.databinding.FragmentHomeBinding
+import com.kharblabs.equationbalancer2.ui.AnimatorsHolders
 import com.lb.auto_fit_textview.AutoResizeTextView
 import katex.hourglass.`in`.mathlib.MathView
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment(),MoleculeFragementListner {
-
+    private var previousScrollY = 0
+    private var isEquationVisible = true
     private var _binding: FragmentHomeBinding? = null
     private var   anim : Animation=  AlphaAnimation(1.0f, 0.0f);
     lateinit private var  solverResults: FloatArray
@@ -44,7 +46,7 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
     // onDestroyView.
     private val binding get() = _binding!!
     private val fileReader by lazy { AssetFileReader(requireContext()) }
-
+    val animatorsHolders= AnimatorsHolders()
     lateinit var homeViewModel: HomeViewModel
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
@@ -133,9 +135,23 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
             }
         }*/
         homeViewModel.input_equation.observe(viewLifecycleOwner) {
-            outputINputShow.text=it.replace("+"," + ").replace("="," \r\n = \r\n ")
+            outputINputShow.text = it.replace("+"," + ").replace("="," = ")
 
+            outputINputShow.post {
+                val layout = outputINputShow.layout ?: return@post
 
+                if (layout.lineCount == 1) {
+                    // It fits in one line, nothing to do.
+                    return@post
+                }
+                if (outputINputShow.lineCount > 1) {
+                    it?.let {
+
+                        // textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, originalTextSize)
+                        outputINputShow.text = it.replace("+"," + ").replace("="," = \r\n ")
+                    }
+                }
+            }
         }
         homeViewModel.textToInsert.observe(viewLifecycleOwner) { textToInsert ->
             val editText = binding.editText
@@ -211,7 +227,9 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
                 }
             }
         }
+
     }
+    private var isTitleVisible = true
     private var currentlyEditingIndex: Int? = null
     fun setupStochRecyclers()
     {

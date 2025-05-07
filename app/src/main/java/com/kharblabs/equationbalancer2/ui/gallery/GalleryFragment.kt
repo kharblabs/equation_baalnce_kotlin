@@ -16,10 +16,10 @@ class GalleryFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
+    lateinit var galleryViewModel: GalleryViewModel
     override fun onCreateView(        inflater: LayoutInflater,        container: ViewGroup?,        savedInstanceState: Bundle?    ): View {
 
-        val galleryViewModel =
+      galleryViewModel =
             ViewModelProvider(this).get(GalleryViewModel::class.java)
 
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
@@ -27,10 +27,23 @@ class GalleryFragment : Fragment() {
 
         val textView: TextView = binding.massresulNum
 
-        galleryViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+
+
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.calculateMolecularMassButton.setOnClickListener {
+            //val s = if(binding.molecularFormulaTextInput.text.isEmpty())  binding.molecularFormulaTextInput.text.toString() else ""
+            galleryViewModel.buttonClick( binding.molecularFormulaTextInput.text.toString())
+        }
+        galleryViewModel.moleculeName.observe(viewLifecycleOwner)  {
+            binding.massName.text=it
+        }
+        galleryViewModel.massLive.observe(viewLifecycleOwner) {
+            binding.massresulNum.text=it
+        }
     }
 
     override fun onDestroyView() {
