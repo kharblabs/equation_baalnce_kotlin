@@ -8,6 +8,10 @@ import android.text.style.StyleSpan
 import com.kharblabs.equationbalancer2.dataManagers.StringMakers
 import kotlin.math.abs
 import androidx.core.graphics.toColorInt
+import com.kharblabs.equationbalancer2.maths.GeneralMaths
+import com.kharblabs.equationbalancer2.maths.Matrix
+import com.kharblabs.equationbalancer2.maths.MatrixSolveIntOnly
+import com.kharblabs.equationbalancer2.otherUtils.StopwatchTimer
 import kotlin.math.roundToInt
 
 class Balancer  {
@@ -119,16 +123,16 @@ class Balancer  {
             }
         }
         //tv3.setText(s2);
-        var lhsElements: HashMap<String, Float>? = HashMap()
-        var RhsElements: HashMap<String, Float>? = HashMap()
-        var allElments: HashMap<String, Float>? = HashMap()
-        lhsElements = LHSElements(LHS)
-        RhsElements = LHSElements(RHS)
+        var lhsElements= mutableMapOf<String, Float>()
+        var RhsElements= mutableMapOf<String, Float>()
+        var allElments =mutableMapOf<String, Float>()
+        lhsElements = element_map_extractor(LHS) as MutableMap<String, Float>
+        RhsElements = element_map_extractor(RHS) as MutableMap<String, Float>
         if (RhsElements == null || lhsElements == null) {
             threadResult.error=                "bracketError"
         }
 
-        if (lhsElements!!.keys != RhsElements!!.keys) {
+        if (lhsElements.keys != RhsElements.keys) {
             threadResult.error="Different elements in products and reactants"
             threadResult.resultType = 3
             return threadResult
@@ -138,7 +142,7 @@ class Balancer  {
         val eqn = ArrayList<String>()
         eqn.addAll(LHS!!)
         eqn.addAll(RHS!!)
-        allElments = LHSElements(eqn)
+        allElments = element_map_extractor(eqn) as MutableMap<String, Float>
         if (allElments == null) {
             threadResult.resultType = 0
             return threadResult
@@ -310,11 +314,12 @@ class Balancer  {
             // Buliding final string
 
             threadResult.resultType = 1
-            val els = allElments.keys.toTypedArray<String>()
-            threadResult.elementlist = els
+
+            threadResult.elementlist = allElments.keys.toTypedArray<String>()
             //threadResult.resulting = buildspan(solver,solver2,newLength,mat2)
-            threadResult.resulting = formatChemicalEquation(solver,solver2,newLength,mat2, "#2196F3".toColorInt(),lhsElements.keys)
-            threadResult.simplyfystring=    simpleStringResultBuilder(solver,solver2,newLength,mat2)
+            val result=formatChemicalEquation(solver,solver2,newLength,mat2, "#2196F3".toColorInt(),lhsElements.keys)
+            threadResult.resulting = result
+            threadResult.simplyfystring=   result.toString() // simpleStringResultBuilder(solver,solver2,newLength,mat2)
             threadResult.aLS = ALS
             threadResult.lHS = LHS
             threadResult.rHS = RHS
@@ -360,7 +365,7 @@ class Balancer  {
 
         return outputArray
     }
-    fun simpleStringResultBuilder(solver: DoubleArray, solver2:IntArray, newLength:Int, mat2:Matrix): String
+    fun simpleStringResultBuilder_old(solver: DoubleArray, solver2:IntArray, newLength:Int, mat2: Matrix): String
     {var biulter  :String = ""
         var i=0
         if (!allEqualSol) {
@@ -394,7 +399,55 @@ class Balancer  {
         }
     return biulter
     }
-    fun buildspan(solver: DoubleArray, solver2:IntArray, newLength:Int, mat2:Matrix):SpannableStringBuilder
+
+    fun simpleStringResultBuilder(
+        solver: DoubleArray,
+        solver2: IntArray,
+        newLength: Int,
+        mat2: Matrix
+    ): String {
+        val builder = StringBuilder()
+
+        // Safely access global lists ALS and LHS; return an error if they are null
+        val als = ALS ?: return ""
+        val lhs = LHS ?: return ""
+
+        // Determine how many items to include in the result string:
+        // If all solutions are not equal, use full ALS size; otherwise, use newLength (reduced system)
+        val totalItems = if (!allEqualSol) als.size else newLength
+
+        for (i in 0 until totalItems) {
+            builder.append("  ") // Add initial spacing before each compound
+
+            // Only append the coefficient if it's not 1 (don't write 1H2O, just H2O)
+            if (solver[i].toInt() != 1) {
+                builder.append(solver2[i])
+            }
+
+            // Append the chemical formula from ALS
+            builder.append(als[i])
+
+            // Check if this is the last compound on the LHS (to place the "=" sign)
+            val isLastOnLHS = i == lhs.size - 1
+
+            // Check if this is not the final compound overall (to place a "+")
+            val isNotLastOverall = if (!allEqualSol) {
+                i < als.size - 1
+            } else {
+                i < mat2.rows - 1
+            }
+
+            // Add appropriate separators: either " =" or "+"
+            when {
+                isLastOnLHS -> builder.append("  =  ")
+                isNotLastOverall -> builder.append(" +")
+            }
+        }
+
+        // Return the constructed chemical equation string
+        return builder.toString()
+    }
+    fun buildspan(solver: DoubleArray, solver2:IntArray, newLength:Int, mat2: Matrix):SpannableStringBuilder
     {val biulter = SpannableStringBuilder("")
         var i=0
         if (!allEqualSol) {
@@ -469,6 +522,22 @@ class Balancer  {
         return result
     }
 
+
+    fun element_map_extractor(lhs: List<String>?): Map<String, Float>? {
+        if (lhs == null) return null
+
+        val lhsElements = mutableListOf<element>()
+
+        for (compound in lhs) {
+            val parsedElements = chemUtils.elementParser(compound) ?: return null
+            lhsElements.addAll(parsedElements)
+        }
+
+        return lhsElements
+            .groupingBy { it.name }
+            .fold(0f) { acc, e -> acc + e.count }
+    }
+    //replaced by above function
     fun LHSElements(lhs: ArrayList<String>?): HashMap<String, Float>? {
         try {
             val lhsElements = ArrayList<element>()
@@ -510,9 +579,6 @@ class Balancer  {
 
         //      }    return  ElementsAS;
     }
-
-
-
 
 class sanitisedResult(var cleanString:String,var error: String, var result: Boolean)
 }

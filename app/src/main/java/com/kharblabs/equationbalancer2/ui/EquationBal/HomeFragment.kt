@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.text.Editable
+import android.text.SpannableStringBuilder
+import android.text.Spanned
 import android.text.TextWatcher
-import android.util.TypedValue
+import android.text.style.CharacterStyle
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -27,8 +29,10 @@ import com.kharblabs.equationbalancer2.dataManagers.MoleculeAdapter
 import com.kharblabs.equationbalancer2.dataManagers.MoleculeFragementListner
 import com.kharblabs.equationbalancer2.databinding.FragmentHomeBinding
 import com.kharblabs.equationbalancer2.ui.AnimatorsHolders
-import com.lb.auto_fit_textview.AutoResizeTextView
 import katex.hourglass.`in`.mathlib.MathView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment(),MoleculeFragementListner {
@@ -167,13 +171,14 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
                 tipCard.visibility = View.GONE
                 inputCard.visibility =View.GONE
                 outputCard.visibility = View.VISIBLE
+
             }
             else
             {
                 tipCard.visibility =View.VISIBLE
                 inputCard.visibility= View.VISIBLE
                 outputCard.visibility= View.GONE
-
+                binding.scrollView2.visibility= View.GONE
             }
         }
 
@@ -206,10 +211,20 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
         }
         binding.textViewExample.setOnClickListener { showExamples() }
 
+        homeViewModel.showOtherElements.observe(viewLifecycleOwner) { shouldShow ->
+            if (shouldShow) {
+                // Make the other UI elements visible here
+                binding.scrollView2.visibility = View.VISIBLE
+
+            }
+        }
         val textView:TextView = binding.resultTexter
+
+
         homeViewModel.displayText.observe(viewLifecycleOwner) {
 
-            textView.setText(it,BufferType.SPANNABLE)
+            animateReadySpannable(textView, it) {                  binding.scrollView2.visibility = View.VISIBLE           }
+            //textView.setText(it,BufferType.SPANNABLE)
             val originalTextSize = textView.textSize
             textView.post {
                 val layout = textView.layout ?: return@post
@@ -222,12 +237,22 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
                     it?.let {
                         val splitText = homeViewModel.splitTextIfNeeded(it)
                        // textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, originalTextSize)
-                        textView.setText(splitText,BufferType.SPANNABLE)
+
+                        animateReadySpannable(textView, splitText){homeViewModel.setOtherElementsVisibility(true)}
                     }
                 }
             }
         }
-
+        homeViewModel.extaradata.observe(viewLifecycleOwner) {
+            binding.extraInfoHandler.text=it
+        }
+        homeViewModel.isLoading.observe(viewLifecycleOwner) {
+            it->
+            if(it)
+                binding.hinter.text="running in background"
+            else
+                binding.hinter.text="run complete"
+        }
     }
     private var isTitleVisible = true
     private var currentlyEditingIndex: Int? = null
@@ -268,13 +293,46 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
             }
 
         }
+
     }
     fun onButtonClickedAdd(view: View) { val buttonText = (view as? Button)?.text?.toString() ?: return
         homeViewModel.editClickAdd(buttonText)}
 
 
     private var ractantSize = 0
+    fun animateReadySpannable(
+        textView: TextView,
+        fullText: SpannableStringBuilder?,
+        delayMillis: Long = 20L,
+        onAnimationComplete: () -> Unit
+    ) {
+        fullText?.let {
+            CoroutineScope(Dispatchers.Main).launch {
+                val displayed = SpannableStringBuilder()
+                for (i in 0 until fullText.length) {
+                    displayed.append(fullText[i])
 
+                    val spans = fullText.getSpans(0, i + 1, CharacterStyle::class.java)
+                    for (span in spans) {
+                        val start = fullText.getSpanStart(span)
+                        val end = fullText.getSpanEnd(span)
+                        if (start <= i) {
+                            displayed.setSpan(
+                                span,
+                                start,
+                                minOf(end, i + 1),
+                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                            )
+                        }
+                    }
+                    textView.setText(displayed, BufferType.SPANNABLE)
+
+                    delay(delayMillis)
+                }
+                onAnimationComplete()
+            }
+        }
+    }
     fun showExamples() {
         val limitCheckBox=binding.limitChecker
         val inputTextField=binding.editText

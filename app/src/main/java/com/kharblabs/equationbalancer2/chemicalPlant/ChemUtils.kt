@@ -126,24 +126,7 @@ class ChemUtils {
         return openPos
     }
 
-    fun getMoleculeMass(s: String?): Float {
-        var eContent =elementParser(s)
-        var mass = 0.0f
-        var thismass = 0.0f
-        if (eContent != null) {
-            for (e in eContent) {
-                var stochiometry = Stochiometry()
-                thismass = stochiometry.getAtMass(e.name)
-                if (thismass > 0) {
-                    mass += e.count * thismass
-                } else {
 
-                    return 0f
-                }
-            }
-        }
-        return mass
-    }
 
     fun elementParser(s2: String?): ArrayList<element>? {
         var s = s2
@@ -164,7 +147,7 @@ class ChemUtils {
                 }
             }
             var skippadd = false
-            if (elems.size > 0) {
+            if (elems.isNotEmpty()) {
                 for (x in elems.indices) {
                     var n = elems[x].replace("\\d".toRegex(), "")
                     n = n.replace(".", "")
@@ -211,7 +194,24 @@ class ChemUtils {
         }
         return 0f
     }
+    fun getMoleculeMass(s: String?): Float {
+        var eContent =elementParser(s)
+        var mass = 0.0f
+        var thismass = 0.0f
+        if (eContent != null) {
+            for (e in eContent) {
+                var stochiometry = Stochiometry()
+                thismass = stochiometry.getAtMass(e.name)
+                if (thismass > 0) {
+                    mass += e.count * thismass
+                } else {
 
+                    return 0f
+                }
+            }
+        }
+        return mass
+    }
     fun Validater(    RHS: ArrayList<String>?,    LHS: ArrayList<String>?,    solver: IntArray): Boolean {
         val R_Hash = java.util.HashMap<String, Float>()
         val L_Hash = java.util.HashMap<String, Float>()

@@ -1,4 +1,4 @@
-package com.kharblabs.equationbalancer2.ui.gallery
+package com.kharblabs.equationbalancer2.ui.oxidation
 
 import android.text.SpannableStringBuilder
 import androidx.core.graphics.toColorInt
@@ -7,13 +7,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kharblabs.equationbalancer2.chemicalPlant.ChemUtils
 import com.kharblabs.equationbalancer2.chemicalPlant.ElementColors
+import com.kharblabs.equationbalancer2.chemicalPlant.OxidationStateCalculator
 import com.kharblabs.equationbalancer2.dataManagers.StringMakers
 
-class GalleryViewModel : ViewModel() {
-
+class OxidationViewModel : ViewModel() {
     private val _text = MutableLiveData<String>().apply {
         value = "This is gallery Fragment"
     }
+    var oxidationStateCalculator = OxidationStateCalculator()
     var chemUtils = ChemUtils()
     val stringMakers = StringMakers()
     var moleculeName = MutableLiveData<SpannableStringBuilder?>()
@@ -26,11 +27,16 @@ class GalleryViewModel : ViewModel() {
         s = s.replace("\\+".toRegex(), "")
         s = s.replace(" ".toRegex(), "")
         if(s.isNotEmpty()) {
-            val returnedMass = chemUtils.getMoleculeMass(s)
-            if (returnedMass > 0.0) {
-                val strDouble = String.format("%.2f", returnedMass);
-                massLive.value= " :    $strDouble  gm/mol"
-                moleculeName.value=formatMoleculeName(s,"#2196F3".toColorInt())
+            val returnedMass = oxidationStateCalculator.calculate(s)
+
+                massLive.value= convertMapToString(returnedMass)
+
+        }
+    }
+    fun convertMapToString(map: Map<String, Map<String, Int>>): String {
+        return map.entries.joinToString(separator = "\n") { (outerKey, innerMap) ->
+            "$outerKey: " + innerMap.entries.joinToString(separator = ", ") { (innerKey, value) ->
+                "$innerKey=$value"
             }
         }
     }
@@ -42,7 +48,7 @@ class GalleryViewModel : ViewModel() {
 
         val colorMap= ElementColors().elementColors
 
-            //  result.append(stringMakers.converttoSpannable(ALS!![i], digitColor))
+        //  result.append(stringMakers.converttoSpannable(ALS!![i], digitColor))
 
         result.append(stringMakers.convertToSpannable_newCheck(moleculeName,digitColor, colorMap))
 

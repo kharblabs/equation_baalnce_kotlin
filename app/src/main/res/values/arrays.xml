@@ -2809,4 +2809,37 @@
         <item>ZrCl4+H2O=ZrO2+HCl</item>
         <item>ZrSiO4+Cl2=ZrCl4+SiO2+O2</item>
     </string-array>
+    <!-- Reply Preference -->
+    <string-array name="reply_entries">
+        <item>Reply</item>
+        <item>Reply to all</item>
+    </string-array>
+
+    <string-array name="reply_values">
+        <item>reply</item>
+        <item>reply_all</item>
+    </string-array>
+    <array name="mass">
+        <item>College Board</item>
+        <item>IUPAC</item>
+    </array>
+    <array name="names">
+        <item>User Input</item>
+        <item>Common</item>
+        <item>IUPAC</item>
+    </array>
+    <array name="randoms">
+        <item>Common Molecules</item>
+        <item>PubChem Database</item>
+    </array>
+    <array name="sorts">
+        <item>Formula</item>
+        <item>Value</item>
+        <item>Atomic Number</item>
+    </array>
+    <array name="themes">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>System Default</item>
+    </array>
 </resources>

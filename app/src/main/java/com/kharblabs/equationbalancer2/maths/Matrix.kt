@@ -1,8 +1,4 @@
-package com.kharblabs.equationbalancer2.chemicalPlant
-
-import kotlin.math.abs
-import kotlin.math.floor
-import kotlin.math.round
+package com.kharblabs.equationbalancer2.maths
 
 
 class Matrix(rows: Int, columns: Int) {

@@ -5,12 +5,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import com.kharblabs.equationbalancer2.chemicalPlant.Balancer
 import com.kharblabs.equationbalancer2.chemicalPlant.ChemUtils
 import com.kharblabs.equationbalancer2.chemicalPlant.ConstantValues
 import com.kharblabs.equationbalancer2.chemicalPlant.Stochiometry
 import com.kharblabs.equationbalancer2.chemicalPlant.ThreadResult
 import com.kharblabs.equationbalancer2.dataManagers.MoleculeEntry
+import com.kharblabs.equationbalancer2.otherUtils.StopwatchTimer
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlin.apply
 
 class HomeViewModel : ViewModel() {
@@ -33,33 +38,54 @@ class HomeViewModel : ViewModel() {
     var reactass = ConstantValues().reactionWithTherm
     lateinit var csvData: MutableList<Array<String>>
     val thermalText = MutableLiveData<String>("")
+    val extaradata = MutableLiveData<String>("")
+    val isLoading = MutableLiveData<Boolean>(false)
    // val inputz_eq :LiveData<String> = _input_equation
+    val timer = StopwatchTimer()
 
     fun onButtonClick(){
+        isLoading.value = true
+        timer.start()
+        viewModelScope.launch(Dispatchers.Default) {
+            val t = input_equation.value?.let { balancer.balancer(it) }
 
 
-        val t=  input_equation.value?.let {  balancer.balancer(it) }
-        if (t != null) {
 
-            if(t.resultType==1) {
-                displayText.value = t.resulting
-                displayLatex.value = t.LatexString
-                balancedAllGood.value=true
-                convertListforAdaptor(t)
-                solverResult.value=t.results
-                get_thermal_data(t.source)
+            if (t != null) {
+
+                if (t.resultType == 1) {
+
+
+                    displayText.postValue( t.resulting)
+
+                    displayLatex.postValue(t.LatexString)
+
+
+                    balancedAllGood.postValue( true)
+                    convertListforAdaptor(t)
+                    solverResult.postValue(t.results)
+                    get_thermal_data(t.source)
+
+                } else {
+                    displayErrorString.postValue( t.error)
+                    balancedAllGood.postValue(false)
+                }
             }
-            else
-            {
-                displayErrorString.value=t.error
-                balancedAllGood.value=false
-            }
+        isLoading.postValue(false)
+            val elapsedTime = timer.stop() // Calculate elapsed time
+
+            extaradata.postValue("Balance execution time: $elapsedTime ms")
         }
+    }
+    private val _showOtherElements = MutableLiveData<Boolean>()
+    val showOtherElements: LiveData<Boolean> = _showOtherElements
 
+    fun setOtherElementsVisibility(visible: Boolean) {
+        _showOtherElements.value = visible
     }
 
     private fun get_thermal_data(reaction: String?) {
-        if(!csvData.isNullOrEmpty())
+        if(csvData.isNotEmpty())
         {
             if (reactass.contains(reaction)) {
                 val index = reactass.indexOf(reaction)
@@ -75,10 +101,10 @@ class HomeViewModel : ViewModel() {
                         }
                     }
 
-                    thermalText.value=complete
+                    thermalText.postValue(complete)
                 }
             } else {
-                thermalText.value="Data not available for this reaction"
+                thermalText.postValue("Data not available for this reaction")
             }
         }
 
@@ -106,9 +132,9 @@ class HomeViewModel : ViewModel() {
             plist.add(MoleculeEntry(name=s, taken = threadResult.results?.get(i+lhsSize)?.times(molarmass) ?: 0.0f, mole = threadResult.results?.get(i+lhsSize)?.times(1.0f) ?: 0.0f,molar=molarmass))
             i++
         }
-        reactantList.value =rlist
+        reactantList.postValue(rlist)
         //reactantList.value = reactantList.value?.plus(rlist) as ArrayList<MoleculeEntry>?
-        productList.value =plist// = productList.value?.plus(plist) as ArrayList<MoleculeEntry>?
+        productList.postValue(plist)// = productList.value?.plus(plist) as ArrayList<MoleculeEntry>?
     }
 
     fun updateList()

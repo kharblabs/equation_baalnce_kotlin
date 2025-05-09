@@ -55,6 +55,8 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.room.common.jvm)
     implementation(libs.androidx.activity)
+    implementation(libs.androidx.preference)
+    implementation(libs.piechart)
     testImplementation(libs.junit)
     testImplementation(libs.junit.junit)
 

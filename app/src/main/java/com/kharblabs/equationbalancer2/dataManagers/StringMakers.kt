@@ -51,7 +51,7 @@ class StringMakers {
         val result = SpannableStringBuilder()
         val elementColors = ElementColors().elementColors
         // Regex: Match element symbols (e.g. H, He), numbers, and parentheses
-        val regex = Regex("([A-Z][a-z]?|\\d+|\\(|\\))")
+        val regex = Regex("([A-Z][a-z]*|\\d+|\\(|\\))")
         val parts = regex.findAll(s)
 
         for (match in parts) {
@@ -67,6 +67,7 @@ class StringMakers {
                         result.setSpan(ForegroundColorSpan(it), start, result.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
                     }
                 }
+
                 elementColors.containsKey(part) -> {
                     colorMap[part]?.let {
                         result.setSpan(

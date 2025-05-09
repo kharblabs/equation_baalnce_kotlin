@@ -151,7 +151,7 @@
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content"
-
+        android:visibility="gone"
         android:layout_margin="5sp"
         android:layout_marginTop="16dp"
         app:cardCornerRadius="12dp"
@@ -219,22 +219,7 @@
 
 
                 >
-                <!---
-            <com.lb.auto_fit_textview.AutoResizeTextView
-                android:id="@+id/result_texter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:filterTouchesWhenObscured="false"
-                android:lineSpacingExtra="4dp"
-                android:longClickable="false"
-                android:padding="16dp"
-                android:textAlignment="center"
-                android:textColor="@color/text_color_primary"
 
-                android:textIsSelectable="false"
-                android:textSize="20sp" /> -->
                 <TextView
                     android:id="@+id/result_texter"
                     android:layout_width="match_parent"
@@ -252,8 +237,9 @@
             <TextView
                 android:id="@+id/hinter"
                 android:layout_width="wrap_content"
-                android:layout_height="0sp"
-                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+
                 android:layout_weight="1"
                 android:background="@color/box_back"
 
@@ -261,6 +247,18 @@
                 android:textAlignment="center"
                 android:textSize="12sp" />
 
+            <TextView
+                android:id="@+id/extraInfoHandler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+
+                android:layout_weight="1"
+                android:background="@color/box_back"
+
+                android:text="@string/tap_eqn"
+                android:textAlignment="center"
+                android:textSize="12sp" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -271,10 +269,11 @@
         android:layout_margin="5sp"
         app:cardCornerRadius="5sp"
         app:cardElevation="5sp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/output_hodler">
+
         <TextView
             android:id="@+id/Tipper"
 
@@ -287,9 +286,9 @@
 
             android:paddingLeft="10sp"
             android:paddingRight="10sp"
+            android:text="@string/helper"
             android:textAlignment="textStart"
             android:visibility="visible"
-            android:text="@string/helper"
             app:layout_constraintTop_toBottomOf="@id/inputCard"
             tools:layout_editor_absoluteX="46dp" />
     </androidx.cardview.widget.CardView>
@@ -304,7 +303,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:paddingBottom="50dp"
         app:layout_constraintTop_toBottomOf="@id/output_hodler"
-
+        android:visibility="gone"
         tools:layout_editor_absoluteX="2dp">
 
         <LinearLayout
@@ -372,6 +371,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5sp"
+                    android:id="@+id/stochCard"
                     app:cardCornerRadius="5sp"
                     app:cardElevation="5sp">
                     <LinearLayout

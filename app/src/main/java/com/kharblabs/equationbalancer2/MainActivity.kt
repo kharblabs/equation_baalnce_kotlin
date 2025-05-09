@@ -1,5 +1,6 @@
 package com.kharblabs.equationbalancer2
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import com.google.android.material.snackbar.Snackbar
@@ -49,14 +50,20 @@ class MainActivity : AppCompatActivity() {
         )
 
         // Setup ActionBar and BottomNav with NavController
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        binding.bottomNav.setupWithNavController(navController)
+      //  setupActionBarWithNavController(navController, appBarConfiguration)
+       // binding.bottomNav.setupWithNavController(navController)
 
 
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        val button = binding.settingsButton
+        button.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -71,4 +78,5 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
 }

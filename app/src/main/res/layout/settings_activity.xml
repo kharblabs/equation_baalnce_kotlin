@@ -1,0 +1,97 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/settings_image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/page_top_icon_height"
+        android:src="@drawable/ic_settings" />
+
+    <FrameLayout
+        android:id="@android:id/list_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/page_name_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settings_image" />
+
+    <ImageView
+        android:id="@+id/translate_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:contentDescription="@null"
+        android:src="@drawable/logo_translate"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/page_name_layout"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/upgrade"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:padding="12dp"
+        android:textColor="@color/text_color_primary"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:backgroundTint="@color/no_page"
+        app:layout_constraintBottom_toTopOf="@+id/translate_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:strokeColor="@color/no_page" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/page_name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/footer_height"
+        android:background="@color/input"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="48dp"
+            android:layout_height="@dimen/footer_height"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Back"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/text_secondary" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/page_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            android:textColor="@color/no_page"
+            android:textSize="@dimen/page_title_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/reset_button"
+            android:layout_width="48dp"
+            android:layout_height="@dimen/footer_height"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_reset"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/text_secondary" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/settings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+

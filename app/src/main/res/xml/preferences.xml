@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:aapt="http://schemas.android.com/aapt">
+    <PreferenceCategory android:title="Appearance" android:key="cat_app">
+        <ListPreference app:defaultValue="System Default" app:entries="@array/themes" app:entryValues="@array/themes" app:icon="@drawable/ic_theme_auto" app:key="theme" app:title="Theme" app:useSimpleSummaryProvider="true"/>
+       <!-- <ListPreference app:defaultValue="" app:entries="@array/lang" app:entryValues="@array/lang_key" app:icon="@drawable/ic_language" app:key="language" app:title="Language" app:useSimpleSummaryProvider="true"/>
+        -->
+        <ListPreference app:defaultValue="Formula" app:entries="@array/sorts" app:entryValues="@array/sorts" app:icon="@drawable/ic_elm_sort" app:key="sort" app:title="Table Element Ordering" app:useSimpleSummaryProvider="true"/>
+        <SwitchPreference app:defaultValue="false" app:icon="@drawable/ic_swap_sort" app:key="direction" app:title="Invert Element Order"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="History" android:key="cat_header">
+        <SwitchPreference app:defaultValue="false" app:icon="@drawable/ic_formula_mode" app:key="header_form" app:title="Prefer Molecular Formula"/>
+        <ListPreference app:defaultValue="User Input" app:entries="@array/names" app:entryValues="@array/names" app:icon="@drawable/ic_name_mode" app:key="header_name" app:title="Preferred Name" app:useSimpleSummaryProvider="true"/>
+        <SwitchPreference app:defaultValue="false" app:icon="@drawable/ic_length" app:key="length" app:title="Display full-length text"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Data" android:key="cat_data">
+        <ListPreference app:defaultValue="College Board" app:entries="@array/mass" app:entryValues="@array/mass" app:icon="@drawable/ic_mass_gram" app:key="mass" app:title="Atomic Mass Source" app:useSimpleSummaryProvider="true"/>
+        <ListPreference app:defaultValue="Common Molecules" app:entries="@array/randoms" app:entryValues="@array/randoms" app:icon="@drawable/ic_random5" app:key="random" app:title="Random Source" app:useSimpleSummaryProvider="true"/>
+        <SeekBarPreference android:max="5" app:defaultValue="3" app:icon="@drawable/ic_mass_decimal" app:key="decimal" app:showSeekBarValue="true" app:title="Molar Mass Decimals"/>
+        <SeekBarPreference android:max="3" app:defaultValue="2" app:icon="@drawable/ic_percent_decimal" app:key="percent" app:showSeekBarValue="true" app:title="Percent Decimals"/>
+        <MultiSelectListPreference app:icon="@drawable/ic_feat_hide" app:key="hide" app:title="Hide Stochiometry"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Info" android:key="cat_info">
+
+        <Preference android:icon="@drawable/ic_acknowledge" android:title="Acknowledgements" android:key="acknowledge"/>
+        <Preference android:icon="@drawable/ic_review" android:title="Leave a Review" android:key="review" android:summary="Or a feature request"/>
+        <Preference android:icon="@drawable/ic_references" android:title="References" android:key="reference"/>
+        <Preference android:icon="@drawable/ic_apps" android:title="More From Me" android:key="apps"/>
+    </PreferenceCategory>
+</PreferenceScreen>

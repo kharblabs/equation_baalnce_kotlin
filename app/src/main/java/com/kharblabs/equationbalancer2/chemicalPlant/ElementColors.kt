@@ -46,9 +46,11 @@ class ElementColors {
         "Rf" to "Transition Metal", "Db" to "Transition Metal", "Sg" to "Transition Metal", "Bh" to "Transition Metal", "Hs" to "Transition Metal", "Mt" to "Unknown",
         "Ds" to "Unknown", "Rg" to "Unknown", "Cn" to "Unknown", "Fl" to "Post-Transition Metal", "Lv" to "Unknown", "Ts" to "Unknown", "Og" to "Noble Gas"
     )
+    val defaultColor = Color.RED
     val elementColors = elementCategories.mapValues { (element, category) ->
-        elementGroupColors[category] ?:"#000000".toColorInt()
+        elementGroupColors[category] ?: defaultColor
     }
+
 
 
     fun assignPastelColors(strings: List<String>?): Map<String, Int> {

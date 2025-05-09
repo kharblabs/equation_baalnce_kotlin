@@ -1,4 +1,4 @@
-package com.kharblabs.equationbalancer2.chemicalPlant
+package com.kharblabs.equationbalancer2.maths
 import kotlin.math.*
 class GeneralMaths {
 
