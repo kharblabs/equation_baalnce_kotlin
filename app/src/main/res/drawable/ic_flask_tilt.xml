@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+
+    <!-- Flask Outline -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#000000"
+        android:strokeWidth="3"
+        android:strokeLineJoin="round"
+        android:pathData="M20,10h12v20l14,22a2,2 0 0,1 -2,2h-36a2,2 0 0,1 -2,-2l14,-22z" />
+
+    <!-- Liquid Line in Flask -->
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:pathData="M14,40h24" />
+
+    <!-- Liquid Bubbles -->
+    <path android:fillColor="#000000"  android:pathData="M22,36h2" />
+    <path android:fillColor="#000000" android:pathData="M28,38h2" />
+    <path android:fillColor="#000000" android:pathData="M34,36h2" />
+    <path android:fillColor="#000000" android:pathData="M26,42h2" />
+    <path android:fillColor="#000000" android:pathData="M10,44h2" />
+
+    <!-- Vertical Sliders -->
+    <!-- Left Slider -->
+    <path android:strokeColor="#000000" android:strokeWidth="2"
+        android:pathData="M48,20v28" />
+    <path android:fillColor="#000000"
+        android:pathData="M46,30h4v6h-4z" />
+
+    <!-- Middle Slider -->
+    <path android:strokeColor="#000000" android:strokeWidth="2"
+        android:pathData="M54,14v34" />
+    <path android:fillColor="#000000"
+        android:pathData="M52,26h4v6h-4z" />
+
+    <!-- Right Slider -->
+    <path android:strokeColor="#000000" android:strokeWidth="2"
+        android:pathData="M60,10v34" />
+    <path android:fillColor="#000000"
+        android:pathData="M58,22h4v6h-4z" />
+</vector>
+

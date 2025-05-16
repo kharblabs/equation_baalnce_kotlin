@@ -1,6 +1,8 @@
 package com.kharblabs.equationbalancer2.chemicalPlant
 
 import android.util.Log
+import com.github.mikephil.charting.data.ChartData
+import com.github.mikephil.charting.data.PieEntry
 
 class ChemUtils {
     public var s22:String=""
@@ -211,6 +213,26 @@ class ChemUtils {
             }
         }
         return mass
+    }
+    fun getMoleculeMassPieChart(s : String?): List<PieEntry> {
+        var results=ArrayList<PieEntry>()
+        var eContent =elementParser(s)
+        var mass = 0.0f
+        var thismass = 0.0f
+        if (eContent != null) {
+            for (e in eContent) {
+                var stochiometry = Stochiometry()
+                thismass = stochiometry.getAtMass(e.name)
+                if (thismass > 0) {
+                    mass += e.count * thismass
+                    results.add(PieEntry(((e.count * thismass)), e.name));
+                } else {
+
+                    return results
+                }
+            }
+        }
+        return results
     }
     fun Validater(    RHS: ArrayList<String>?,    LHS: ArrayList<String>?,    solver: IntArray): Boolean {
         val R_Hash = java.util.HashMap<String, Float>()

@@ -225,7 +225,6 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
 
             animateReadySpannable(textView, it) {                  binding.scrollView2.visibility = View.VISIBLE           }
             //textView.setText(it,BufferType.SPANNABLE)
-            val originalTextSize = textView.textSize
             textView.post {
                 val layout = textView.layout ?: return@post
 

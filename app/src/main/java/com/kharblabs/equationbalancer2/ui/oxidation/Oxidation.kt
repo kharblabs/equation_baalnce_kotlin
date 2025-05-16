@@ -6,8 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ListView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.kharblabs.equationbalancer2.R
+import com.kharblabs.equationbalancer2.dataManagers.OxidationAdapter
 import com.kharblabs.equationbalancer2.databinding.FragmentGalleryBinding
 import com.kharblabs.equationbalancer2.databinding.FragmentOxidationBinding
 import com.kharblabs.equationbalancer2.ui.gallery.GalleryViewModel
@@ -32,7 +35,7 @@ class Oxidation : Fragment() {
     ): View {
 
         oxidationViewModel =
-            ViewModelProvider(this).get(OxidationViewModel::class.java)
+            ViewModelProvider(this)[OxidationViewModel::class.java]
 
         _binding = FragmentOxidationBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -49,6 +52,11 @@ class Oxidation : Fragment() {
         oxidationViewModel.massLive.observe(viewLifecycleOwner)  {
             binding.oxyName.text=it
         }
+        val listView: ListView = view.findViewById(R.id.oxidList)
+
+        viewModel.oxidList.observe(viewLifecycleOwner, Observer { entries ->
+            listView.adapter = OxidationAdapter(requireContext(), entries)
+        })
         super.onViewCreated(view, savedInstanceState)
     }
 }

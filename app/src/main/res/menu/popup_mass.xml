@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/only_pro"
+        android:title="@string/enable_pro_mode" />
+    <item
+        android:id="@+id/only_pro_name"
+        android:title="@string/copy_name_pro_only" />
+    <item
+        android:id="@+id/only_pro_mass"
+        android:title="@string/copy_mass_pro_only" />
+</menu>

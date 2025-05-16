@@ -5,13 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.oxidation.Oxidation">
+    <TextView
+        android:id="@+id/header_title3"
+        android:layout_margin="5sp"
+        android:textColor="#FFFFFF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OXIDATION NUMBER CALCULATOR"
+        android:textAlignment="center"
+        android:textStyle="italic|bold"
 
+        android:textSize="20sp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5sp"
         app:cardElevation="5sp"
-        android:id="@+id/oxy_find_input">
+        android:id="@+id/oxy_find_input"
+        app:layout_constraintTop_toBottomOf="@+id/header_title3">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,7 +98,10 @@
                 android:textSize="30dp" />
 
 
-
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/oxidList"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

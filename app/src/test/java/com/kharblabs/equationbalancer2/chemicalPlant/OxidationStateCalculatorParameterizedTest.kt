@@ -9,10 +9,10 @@ class OxidationStateCalculatorParameterizedTest(
     private val formula: String,
     private val expected: Map<String, Map<String, Int>>
 ) {
-
+val oxidationStateCalculator = OxidationStateCalculator()
     @Test
     fun testOxidationStates() {
-        val result = OxidationStateCalculator.calculate(formula)
+        val result = oxidationStateCalculator.calculate(formula)
 
         println("Formula: $formula")
         println("Expected: $expected")

@@ -15,7 +15,7 @@
     <PreferenceCategory android:title="Data" android:key="cat_data">
         <ListPreference app:defaultValue="College Board" app:entries="@array/mass" app:entryValues="@array/mass" app:icon="@drawable/ic_mass_gram" app:key="mass" app:title="Atomic Mass Source" app:useSimpleSummaryProvider="true"/>
         <ListPreference app:defaultValue="Common Molecules" app:entries="@array/randoms" app:entryValues="@array/randoms" app:icon="@drawable/ic_random5" app:key="random" app:title="Random Source" app:useSimpleSummaryProvider="true"/>
-        <SeekBarPreference android:max="5" app:defaultValue="3" app:icon="@drawable/ic_mass_decimal" app:key="decimal" app:showSeekBarValue="true" app:title="Molar Mass Decimals"/>
+        <SeekBarPreference android:max="5" app:defaultValue="3" app:icon="@drawable/ic_molecule_charged" app:key="decimal" app:showSeekBarValue="true" app:title="Molar Mass Decimals"/>
         <SeekBarPreference android:max="3" app:defaultValue="2" app:icon="@drawable/ic_percent_decimal" app:key="percent" app:showSeekBarValue="true" app:title="Percent Decimals"/>
         <MultiSelectListPreference app:icon="@drawable/ic_feat_hide" app:key="hide" app:title="Hide Stochiometry"/>
     </PreferenceCategory>

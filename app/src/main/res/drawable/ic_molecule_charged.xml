@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+
+    <!-- Left H Circle -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M14,10a6,6 0 1,1 -12,0a6,6 0 1,1 12,0z"
+        android:strokeColor="#000000"
+        android:strokeWidth="1.5"/>
+    <!-- H Letter -->
+
+    <!-- Right H Circle -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M62,10a6,6 0 1,1 -12,0a6,6 0 1,1 12,0z"
+        android:strokeColor="#000000"
+        android:strokeWidth="1.5"/>
+    <!-- H Letter -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M55.5,6v8m0,-4h3" />
+
+    <!-- O Circle -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M32,50a10,10 0 1,1 -20,0a10,10 0 1,1 20,0z"
+        android:strokeColor="#000000"
+        android:strokeWidth="1.5"/>
+    <!-- O Letter -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M23,45a2.5,2.5 0 1,0 5,0a2.5,2.5 0 1,0 -5,0z" />
+
+    <!-- Connecting lines -->
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="1.5"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M11,14 L22,38"/>
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="1.5"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M53,14 L32,38"/>
+
+    <!-- Plus sign between H atoms -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M31,8h2v-2h2v2h2v2h-2v2h-2v-2h-2z"/>
+
+    <!-- Minus sign below H atoms -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M30,30h6v2h-6z"/>
+</vector>

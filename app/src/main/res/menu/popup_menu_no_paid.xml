@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/only_copay"
+        android:title="Copy (Pro Only)" />
+    <item
+        android:id="@+id/twoa"
+        android:title="Stoichiometry(Pro Only)"/>
+</menu>

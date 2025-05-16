@@ -15,13 +15,13 @@
         android:id="@+id/nav_gallery"
         android:name="com.kharblabs.equationbalancer2.ui.gallery.GalleryFragment"
         android:label="Mass"
-        tools:layout="@layout/fragment_molar_mass2" />
+        tools:layout="@layout/fragment_periodic_table" />
 
     <fragment
         android:id="@+id/nav_molarmass"
-        android:name="com.kharblabs.equationbalancer2.ui.molarMass.molarMass"
+        android:name="com.kharblabs.equationbalancer2.ui.molarMass.peridicTable"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_molar_mass2" />
+        tools:layout="@layout/fragment_periodic_table" />
 
     <fragment
         android:id="@+id/nav_slideshow"

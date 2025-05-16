@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -59,7 +60,11 @@ dependencies {
     implementation(libs.piechart)
     testImplementation(libs.junit)
     testImplementation(libs.junit.junit)
-
+    val room_version = "2.7.1"
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation("com.squareup.picasso:picasso:2.8")
     androidTestImplementation(libs.androidx.junit)
+    ksp("androidx.room:room-compiler:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
     androidTestImplementation(libs.androidx.espresso.core)
 }

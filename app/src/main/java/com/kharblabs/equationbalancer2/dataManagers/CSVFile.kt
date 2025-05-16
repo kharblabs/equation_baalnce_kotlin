@@ -32,30 +32,28 @@ class AssetFileReader(private val context: Context) {
         return@withContext resultList
     }
 }
+class CSVFile(private val inputStream: InputStream) {
 
-class CSVFile  (inputStream: InputStream? ){
-    private var inputStream: InputStream? = null
-
-
-
-    fun read(): List<*> {
-        val resultList: ArrayList<String?> = ArrayList<String?>()
+    fun read(): List<Array<String>> {
+        val resultList = mutableListOf<Array<String>>()
         val reader = BufferedReader(InputStreamReader(inputStream))
+
         try {
-            var csvLine: String
-            while ((reader.readLine().also { csvLine = it }) != null) {
-                val row = csvLine.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                resultList.addAll(row)
+            var csvLine: String?
+            while (reader.readLine().also { csvLine = it } != null) {
+                val row = csvLine!!.split(",").toTypedArray()
+                resultList.add(row)
             }
         } catch (ex: IOException) {
             throw RuntimeException("Error in reading CSV file: $ex")
         } finally {
             try {
-                inputStream!!.close()
+                inputStream.close()
             } catch (e: IOException) {
                 throw RuntimeException("Error while closing input stream: $e")
             }
         }
+
         return resultList
     }
 }

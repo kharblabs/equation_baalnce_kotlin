@@ -1,7 +1,9 @@
 package com.kharblabs.equationbalancer2.dataManagers
 
+import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned
+import android.text.style.BackgroundColorSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.SubscriptSpan
@@ -22,31 +24,7 @@ class StringMakers {
         }
         return s2
     }
-    fun converttoSpannable(s: String, digitColor: Int? = null): SpannableStringBuilder {
-        val elementColors = ElementColors().elementColors
-        val result = SpannableStringBuilder()
-        val parts = s.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)".toRegex())
 
-        for (part in parts) {
-            val start = result.length
-            result.append(part)
-
-            when {
-                part.matches("\\d+".toRegex()) -> {
-                    result.setSpan(SubscriptSpan(), start, result.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    result.setSpan(RelativeSizeSpan(0.75f), start, result.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    digitColor?.let {
-                        result.setSpan(ForegroundColorSpan(it), start, result.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    }
-                }
-                elementColors.containsKey(part) -> {
-                    result.setSpan(ForegroundColorSpan(elementColors[part]!!), start, result.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                }
-            }
-        }
-
-        return result
-    }
     fun convertToSpannable_newCheck(s: String, digitColor: Int? = null, colorMap: Map<String, Int>): SpannableStringBuilder {
         val result = SpannableStringBuilder()
         val elementColors = ElementColors().elementColors
@@ -117,6 +95,66 @@ class StringMakers {
         return latexOut
     }
 
+
+    /**
+     * Applies subscript spans to digits following letters or ')' in chemical formulas.
+     * E.g., H2O -> H₂O
+     */
+    fun applySubscriptSpans(str: String, spannable: SpannableString) {
+        val regex = Regex("""(?<=[a-zA-Z)])(\d+)""")
+        for (match in regex.findAll(str)) {
+            spannable.setSpan(SubscriptSpan(), match.range.first, match.range.last + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            spannable.setSpan(RelativeSizeSpan(0.75f), match.range.first, match.range.last + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+    }
+
+    /**
+     * Highlights the '↓' character (precipitate symbol) with increased size and color.
+     */
+    fun highlightDownArrow(str: String, spannable: SpannableString, color: Int) {
+        var index = str.indexOf('↓')
+        while (index >= 0) {
+            spannable.setSpan(RelativeSizeSpan(1.5f), index, index + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            spannable.setSpan(ForegroundColorSpan(color), index, index + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            index = str.indexOf('↓', index + 1)
+        }
+    }
+
+    /**
+     * Highlights matching reagent or product terms based on the '=' sign position in a chemical equation.
+     */
+    fun highlightSearchMatches(
+        str: String,
+        spannable: SpannableString,
+        terms: List<String>,
+        searchIn: SearchInEnum,
+        color: Int
+    ) {
+        val eqIndex = str.indexOf('=')
+        val lowerStr = str.lowercase()
+
+        for (term in terms) {
+            var index = lowerStr.indexOf(term)
+            while (index >= 0) {
+                val isMatch = (index < eqIndex && searchIn == SearchInEnum.BY_REAGENTS) ||
+                        (index > eqIndex && searchIn == SearchInEnum.BY_PRODUCTS)
+                if (isMatch) {
+                    spannable.setSpan(BackgroundColorSpan(color), index, index + term.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+                index = lowerStr.indexOf(term, index + 1)
+            }
+        }
+    }
+
+    /**
+     * Highlights stoichiometric coefficients (e.g., the '2' in '2 H₂') with a given color.
+     */
+    fun highlightCoefficients(str: String, spannable: SpannableString, color: Int) {
+        val regex = Regex("""(?<=^|\s|\+)(\d+)""")
+        for (match in regex.findAll(str)) {
+            spannable.setSpan(ForegroundColorSpan(color), match.range.first, match.range.last + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+    }
     fun splitString(string: String): List<String> {
         val list: MutableList<String> = ArrayList()
         var token = ""

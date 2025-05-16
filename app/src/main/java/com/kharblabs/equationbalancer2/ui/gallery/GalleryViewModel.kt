@@ -5,6 +5,7 @@ import androidx.core.graphics.toColorInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.github.mikephil.charting.data.PieEntry
 import com.kharblabs.equationbalancer2.chemicalPlant.ChemUtils
 import com.kharblabs.equationbalancer2.chemicalPlant.ElementColors
 import com.kharblabs.equationbalancer2.dataManagers.StringMakers
@@ -20,7 +21,7 @@ class GalleryViewModel : ViewModel() {
     var massLive=MutableLiveData<String>().apply { value="" }
     var downString= MutableLiveData<String>().apply { value="" }
     val text: LiveData<String> = _text
-
+    var pieEntries = MutableLiveData<ArrayList<PieEntry>>()
     fun buttonClick(molecule : String)
     {   var s= molecule
         s = s.replace("\\+".toRegex(), "")
@@ -31,6 +32,8 @@ class GalleryViewModel : ViewModel() {
                 val strDouble = String.format("%.2f", returnedMass);
                 massLive.value= " :    $strDouble  gm/mol"
                 moleculeName.value=formatMoleculeName(s,"#2196F3".toColorInt())
+                pieEntries.value= chemUtils.getMoleculeMassPieChart(s) as ArrayList<PieEntry>?
+
             }
         }
     }

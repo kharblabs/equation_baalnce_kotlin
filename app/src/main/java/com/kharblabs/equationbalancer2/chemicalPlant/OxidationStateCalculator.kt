@@ -67,7 +67,7 @@ class OxidationStateCalculator {
         return if (match != null) {
             val mag = match.groupValues[1].ifEmpty { "1" }.toInt()
             val sign = match.groupValues[2]
-            val charge = if (sign == "+") mag else -mag
+            val charge = if (sign.isEmpty()) mag else -mag
             formula.removeSuffix(match.value) to charge
         } else formula to 0
     }

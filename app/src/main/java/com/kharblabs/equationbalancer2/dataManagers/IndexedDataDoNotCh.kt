@@ -5,18 +5,18 @@ import java.io.Serializable
 
 
 @Keep
-class IndexedDataDoNotCh // indexed data (reagentKeys,
-//               reaction indexed by reagent,
-//               product keys,
-//                reactionindexed by prod keys,
-//               all compound
-//                compund count)
-    (
+
+data class IndexedDataDoNotCh2(
     val reagentKeys: Array<String>,
     val reactionsIndexedByReagentKeys: Array<Array<String>>,
     val productKeys: Array<String>,
     val reactionsIndexedByProductKeys: Array<Array<String>>,
     val allCompounds: Array<String>,
     val allCompoundsCount: IntArray
-) :
-    Serializable
+) : Serializable
+/*{
+    companion object {
+        // Update this to the serialVersionUID from the serialized version
+        private const val serialVersionUID: Long = 5651863890238941535L
+    }
+}*/

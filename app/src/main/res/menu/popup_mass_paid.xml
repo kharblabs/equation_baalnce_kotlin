@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/only_copy_mass"
+        android:title="@string/copy_mass_only" />
+    <item
+        android:id="@+id/only_copy_mass_form"
+        android:title="@string/copy_mass_and_formula" />
+    <item
+        android:id="@+id/only_copy_name"
+        android:title="@string/copy_name_s" />
+</menu>

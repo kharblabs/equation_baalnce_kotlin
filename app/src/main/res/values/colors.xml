@@ -14,7 +14,7 @@
     <color name="drawer_back">#404040</color>
     <color name="colorPrimary">#CB997E</color>-->
 
-    <color name="colorPrimary">#FF9966</color>              <!-- Pastel Orange -->
+    <color name="colorPrimary">#ff8c00</color>              <!-- Pastel Orange -->
     <color name="colorPrimaryVariant">#FF9966</color>              <!-- Pastel Orange -->
     <color name="colorPrimaryDark">#FF7733</color>          <!-- Darker Orange -->
     <color name="colorPrimaryLight">#FFCC99</color>         <!-- Light Orange -->
