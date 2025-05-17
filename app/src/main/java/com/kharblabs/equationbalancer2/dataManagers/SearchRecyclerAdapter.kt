@@ -17,6 +17,7 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.TextView.BufferType
 import android.widget.Toast
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
 
 /**
@@ -123,7 +124,7 @@ class SearchRecyclerAdapter : RecyclerView.Adapter<SearchRecyclerAdapter.SearchV
         stringMakers.applySubscriptSpans(equation, spannable)
         stringMakers.highlightDownArrow(equation, spannable, Color.BLUE)
         stringMakers.highlightSearchMatches(equation, spannable,
-            queriedString, SearchInEnum.BY_REAGENTS, Color.YELLOW)
+            queriedString, SearchInEnum.BY_REAGENTS, "#FFA500".toColorInt())
         stringMakers.highlightCoefficients(equation, spannable, Color.RED)
         return spannable
     }

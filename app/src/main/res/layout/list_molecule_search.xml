@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:aapt="http://schemas.android.com/aapt"
     android:orientation="vertical"
-    android:background="?android:attr/selectableItemBackground"
     android:paddingLeft="10dp"
     android:paddingTop="5dp"
     android:paddingRight="10dp"
@@ -16,7 +15,6 @@
     <TextView
         android:textSize="18sp"
         android:layout_margin="2dp"
-        android:background="@color/box_back"
         android:id="@+id/text_data_entry_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

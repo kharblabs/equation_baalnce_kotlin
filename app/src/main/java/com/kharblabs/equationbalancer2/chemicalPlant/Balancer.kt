@@ -317,7 +317,7 @@ class Balancer  {
 
             threadResult.elementlist = allElments.keys.toTypedArray<String>()
             //threadResult.resulting = buildspan(solver,solver2,newLength,mat2)
-            val result=formatChemicalEquation(solver,solver2,newLength,mat2, "#2196F3".toColorInt(),lhsElements.keys)
+            val result=formatChemicalEquation(solver,solver2,newLength,mat2, "#111111".toColorInt(),lhsElements.keys)
             threadResult.resulting = result
             threadResult.simplyfystring=   result.toString() // simpleStringResultBuilder(solver,solver2,newLength,mat2)
             threadResult.aLS = ALS

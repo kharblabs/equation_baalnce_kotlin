@@ -26,6 +26,10 @@ class ChemistryApplication : Application() {
         val mass: Float
     )
     val consts= ConstantValues()
+    val element_symbols = consts.elements//arrayOf("H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne"): Array<String>,
+    val  element_names=consts.elementNames//: Array<String>,
+
+    val element_masses=consts.roundedMasses
     fun buildPeriodicGrid(
 
     ): List<PeriodicCell?> {

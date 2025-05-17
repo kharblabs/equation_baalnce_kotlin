@@ -48,7 +48,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx);
+    implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.keatex)
     implementation(libs.autotext)
     implementation(libs.mockito)
@@ -63,6 +63,7 @@ dependencies {
     val room_version = "2.7.1"
     implementation("androidx.room:room-runtime:$room_version")
     implementation("com.squareup.picasso:picasso:2.8")
+    implementation( "com.leinardi.android:speed-dial:3.3.0")
     androidTestImplementation(libs.androidx.junit)
     ksp("androidx.room:room-compiler:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")

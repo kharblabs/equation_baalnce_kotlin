@@ -40,22 +40,28 @@
         android:layout_height="wrap_content"
             android:text="@string/chemical_compound"
         />
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            app:hintAnimationEnabled="true"
-            android:layout_marginTop="10sp"
-            >
 
-            <com.kharblabs.equationbalancer2.dataManagers.TextInputAutoCompleteTextView
-                android:id="@+id/molecular_formula_text_input"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_alignParentTop="true"
-                android:hint="@string/mass_example"
-                android:imeOptions="flagNoExtractUi" />
-        </com.google.android.material.textfield.TextInputLayout>
+
+        <AutoCompleteTextView
+            android:id="@+id/molecular_formula_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:padding="16sp"
+            android:background="@drawable/light_button_background"
+            android:elevation="1dp"
+            android:gravity="top|left"
+            android:lines="1"
+
+            android:maxLines="10"
+            android:minLines="1"
+            android:scrollbars="none"
+            android:text="C2H5OH"
+            android:textSize="20sp"
+
+            android:textColor="#222222"
+            android:visibility="visible"
+            tools:ignore="RtlHardcoded" />
         <Button android:id="@+id/calculate_molecular_mass_button"
             android:layout_width="fill_parent"
             android:layout_marginTop="10sp"

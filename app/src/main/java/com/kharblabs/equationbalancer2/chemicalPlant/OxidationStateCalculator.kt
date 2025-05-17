@@ -1,4 +1,16 @@
 package com.kharblabs.equationbalancer2.chemicalPlant
+
+import android.graphics.Color
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
+import android.text.style.SubscriptSpan
+import android.text.style.SuperscriptSpan
+import android.text.style.TypefaceSpan
+
 data class Ion(val name: String, val formula: String, val charge: Int, val oxidationStates: Map<String, Int>)
 
 class OxidationStateCalculator {
@@ -48,6 +60,7 @@ class OxidationStateCalculator {
         }
 
         val atoms = flattenFormula(formulaRemaining)
+        if (atoms.isEmpty()) return output
         val solved = try {
             solveOxidationStates(atoms, netCharge)
         } catch (e: Exception) {
@@ -55,12 +68,19 @@ class OxidationStateCalculator {
         }
 
         for ((element, ox) in solved) {
-            output.computeIfAbsent(element) { mutableMapOf() }["overall"] = ox
+
+            output.computeIfAbsent(element) { mutableMapOf() }[getNameFromSymbol(element)] = ox
         }
 
         return output
     }
-
+    fun getNameFromSymbol(string: String): String
+    {   val t= consts.elements.indexOf(string)
+        if(t>-1)
+            return consts.elementNames[t]
+        return "--"
+    }
+    val consts= ConstantValues()
     private fun extractCharge(formula: String): Pair<String, Int> {
         val regex = Regex("""\^(\d*)([+-])$""")
         val match = regex.find(formula)
@@ -101,7 +121,7 @@ class OxidationStateCalculator {
         return result
     }
 
-    private fun flattenFormula(formula: String): Map<String, Int> {
+     fun flattenFormula(formula: String): Map<String, Int> {
         val stack = mutableListOf<MutableMap<String, Int>>()
         var current = mutableMapOf<String, Int>()
         var i = 0
@@ -188,5 +208,154 @@ class OxidationStateCalculator {
         }
 
         throw IllegalStateException("Too many unknowns")
+    }
+    fun buildOxidationDisplaySpannable(formula:String, oxidationMap :Map<String, Map<String, Int>> ): SpannableStringBuilder {
+        data class ElementInfo(
+            val element: String,
+            val count: Int,
+            val oxidationNumbers: List<Int>
+        )
+
+        val elementCounts = flattenFormula(formula.split("^")[0])
+        val elements = elementCounts.map { (element, count) ->
+            val oxMap = oxidationMap[element] ?: emptyMap()
+            val values = oxMap.values.toSet().toList().sorted()
+            ElementInfo(element, count, values)
+        }
+
+        val builder = SpannableStringBuilder()
+
+        fun appendPipe() {
+            val start = builder.length
+            builder.append(" | ")
+            builder.setSpan(
+                ForegroundColorSpan(Color.GRAY),
+                start,
+                builder.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+
+        // Line 1: oxidation numbers
+        elements.forEachIndexed { i, e ->
+            val oxString = e.oxidationNumbers.joinToString("/") { num ->
+                if (num == 0) "0" else "${if (num > 0) "+" else ""}$num"
+            }
+
+            val padded = padCenter(oxString, cellWidth)
+            val start = builder.length
+            builder.append(padded)
+            builder.setSpan(monoTypefaceSpan, start, builder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            builder.setSpan(SuperscriptSpan(), start, builder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            builder.setSpan(RelativeSizeSpan(0.7f), start, builder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            // Optional: color based on sign of the first oxidation number
+            val color = when {
+                e.oxidationNumbers.first() > 0 -> Color.RED
+                e.oxidationNumbers.first() < 0 -> Color.BLUE
+                else -> Color.DKGRAY
+            }
+            builder.setSpan(ForegroundColorSpan(color), start, builder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            if (i < elements.lastIndex) builder.append("|")
+        }
+
+        builder.append("\n")
+
+// Line 2: element symbols
+        elements.forEachIndexed { i, e ->
+            val padded = padCenter(e.element, cellWidth)
+            val start = builder.length
+            builder.append(padded)
+            builder.setSpan(monoTypefaceSpan, start, builder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            builder.setSpan(StyleSpan(Typeface.BOLD), start, builder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            if (i < elements.lastIndex) builder.append("|")
+        }
+
+        return builder
+    }
+    val cellWidth = 6
+    val monoTypefaceSpan = TypefaceSpan("monospace")
+    fun padCenter(text: String, width: Int): String {
+        if (text.length >= width) return text
+        val totalPadding = width - text.length
+        val padStart = totalPadding / 2
+        val padEnd = totalPadding - padStart
+        return " ".repeat(padStart) + text + " ".repeat(padEnd)
+    }
+    fun buildOxidationDisplaySpannable2(formula:String, oxidationMap :Map<String, Map<String, Int>> ): SpannableStringBuilder {
+        data class ElementInfo(
+            val element: String,
+            val count: Int,
+            val oxidationNumber: Int
+        )
+
+        //val oxidationMap = calculate(formula)
+        val elementCounts = flattenFormula(formula)
+
+        val elements = elementCounts.map { (element, count) ->
+            val oxMap = oxidationMap[element]
+            val ox = oxMap?.get("overall") ?: oxMap?.values?.firstOrNull() ?: 0
+            ElementInfo(element, count, ox)
+        }
+
+        val builder = SpannableStringBuilder()
+
+        fun appendPipe() {
+            val start = builder.length
+            builder.append(" | ")
+            builder.setSpan(
+                ForegroundColorSpan(Color.GRAY),
+                start,
+                builder.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+
+        fun appendSubscriptedElement(e: ElementInfo) {
+            builder.append(e.element)
+            if (e.count > 1) {
+                val start = builder.length
+                builder.append(e.count.toString())
+                builder.setSpan(SuperscriptSpan(), start, builder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                builder.setSpan(RelativeSizeSpan(0.7f), start, builder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+        }
+
+        fun appendSuperscriptedOxNumber(ox: Int) {
+            val oxStr = if (ox == 0) "0" else "${if (ox > 0) "+" else ""}$ox"
+            val start = builder.length
+            builder.append(oxStr)
+            builder.setSpan(SuperscriptSpan(), start, builder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            builder.setSpan(RelativeSizeSpan(0.7f), start, builder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            builder.setSpan(
+                ForegroundColorSpan(
+                    when {
+                        ox > 0 -> Color.RED
+                        ox < 0 -> Color.BLUE
+                        else -> Color.DKGRAY
+                    }
+                ),
+                start,
+                builder.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+
+        // Line 1: Elements
+        elements.forEachIndexed { i, e ->
+            appendSubscriptedElement(e)
+            if (i != elements.lastIndex) appendPipe()
+        }
+
+        builder.append("\n")
+
+        // Line 2: Oxidation numbers
+        elements.forEachIndexed { i, e ->
+            appendSuperscriptedOxNumber(e.oxidationNumber)
+            if (i != elements.lastIndex) appendPipe()
+        }
+
+        return builder
     }
 }

@@ -127,12 +127,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_recycler_view"
         android:layout_width="fill_parent"
-        android:padding="1dp"
-        android:background="@drawable/border"
+        android:padding="8dp"
         android:layoutAnimation="@anim/layout_anim_fall_down"
         android:layout_height="0dp"
-        android:layout_margin="2dp"
+        android:layout_margin="8dp"
         android:scrollbars="vertical"
+        android:background="@color/colorBackground"
         app:layout_constraintTop_toBottomOf="@id/searcHinputHOlder"
        />
 

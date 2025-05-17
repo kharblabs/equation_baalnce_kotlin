@@ -41,7 +41,7 @@
         android:textColor="@color/text_color_primary"
         android:textSize="16sp"
         android:visibility="gone"
-        app:backgroundTint="@color/no_page"
+
         app:layout_constraintBottom_toTopOf="@+id/translate_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:strokeColor="@color/no_page" />
@@ -50,7 +50,6 @@
         android:id="@+id/page_name_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/footer_height"
-        android:background="@color/input"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageButton

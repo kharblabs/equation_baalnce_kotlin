@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
+    tools:context=".PeriodicTable">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="none"
+            android:padding="5dp">
+
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:scrollbars="none">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/prdTable"
+                    android:layout_width="1260dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:scrollbars="none" />
+
+            </ScrollView>
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/tableLogText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LOGVIEW" />
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -157,12 +157,14 @@ class HomeViewModel : ViewModel() {
 
         val firstPart = SpannableStringBuilder(spannable.subSequence(0, lastDelimiterIndex))
         val secondPart = SpannableStringBuilder(spannable.subSequence(lastDelimiterIndex + 1, spannable.length))
-
-        return SpannableStringBuilder().apply {
+        if (fullText.length >25  )
+        {        return SpannableStringBuilder().apply {
             append(firstPart)
             append("\n=\n")
             append(secondPart)
         }
+        }
+        return spannable
     }
     fun editClickAdd(s:String)
     {

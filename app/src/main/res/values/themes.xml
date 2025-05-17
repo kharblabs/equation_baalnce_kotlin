@@ -27,4 +27,9 @@
     <style name="Theme.EquationBalancer.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.EquationBalancer.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="DrawerAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
+        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
+    </style>
 </resources>

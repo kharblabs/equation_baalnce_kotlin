@@ -20,6 +20,9 @@ import com.kharblabs.equationbalancer2.otherUtils.FragmentAdapter
 import com.kharblabs.equationbalancer2.ui.EquationBal.HomeFragment
 
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.kharblabs.equationbalancer2.ui.MoreOptionsBottomSheet
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var fragmentAdapter: FragmentAdapter
     private var activeFragment: Fragment = homeFragment
+    private var previousSelectedItemId: Int = R.id.nav_equation
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,59 +51,67 @@ class MainActivity : AppCompatActivity() {
         viewPager2.adapter = fragmentAdapter
 
         // Sync BottomNavigationView with ViewPager2
-        bottomNav.setOnNavigationItemSelectedListener { menuItem ->
+        bottomNav.setOnItemSelectedListener  { menuItem ->
             when (menuItem.itemId) {
-                R.id.nav_equation -> viewPager2.currentItem = 0
+                R.id.nav_equation -> {
+                    viewPager2.currentItem = 0
+                    previousSelectedItemId = R.id.nav_equation
+                    true
+                }
+                R.id.nav_search -> {
+                    viewPager2.currentItem = 1
+                    previousSelectedItemId = R.id.nav_search
+                    true
+                }
+                R.id.nav_gallery -> {
+                    viewPager2.currentItem = 2
+                    previousSelectedItemId = R.id.nav_gallery
+                    true
+                }
+                R.id.nav_oxid_bottom -> {
+                    viewPager2.currentItem = 3
+                    previousSelectedItemId = R.id.nav_oxid_bottom
+                    true
+                }
+                R.id.nav_more -> {
+                    // Show BottomSheet
+                    MoreOptionsBottomSheet().show(supportFragmentManager, "MoreOptions")
 
-                R.id.nav_search -> viewPager2.currentItem = 1
-                R.id.nav_gallery -> viewPager2.currentItem = 2
-
-                R.id.nav_oxid_bottom -> viewPager2.currentItem = 3
-                R.id.table -> viewPager2.currentItem = 4
+                    // Reset selection back immediately so "More" doesn't stay selected
+                    bottomNav.post {
+                        bottomNav.selectedItemId = previousSelectedItemId
+                    }
+                    true
+                }
+                else -> false
             }
-            true
         }
 
         // Sync ViewPager2 with BottomNavigationView when swiping between fragments
         viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                // Sync the BottomNavigationView to reflect the current page
-                when (position) {
-                    0 -> bottomNav.selectedItemId = R.id.nav_equation
-                    1 -> bottomNav.selectedItemId = R.id.nav_search
-                    2 ->  bottomNav.selectedItemId =R.id.nav_gallery
-                    3 ->  bottomNav.selectedItemId =R.id.nav_oxid_bottom
-                    4 -> bottomNav.selectedItemId = R.id.table
+                val id = when (position) {
+                    0 -> R.id.nav_equation
+                    1 -> R.id.nav_search
+                    2 -> R.id.nav_gallery
+                    3 -> R.id.nav_oxid_bottom
+                    else -> previousSelectedItemId
                 }
+                previousSelectedItemId = id
+                bottomNav.selectedItemId = id
             }
         })
-        val button = binding.settingsButton
-        button.setOnClickListener {
-            val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
-
-        }
-
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (viewPager2.currentItem == 0) { // Home Fragment
-                    if (doubleBackToExitPressedOnce) {
-                        // If back pressed twice quickly, exit the app
-                        finish()
-                    } else {
-                        // Show Toast message for the first press
-                        doubleBackToExitPressedOnce = true
-                        Toast.makeText(applicationContext, "Press back again to exit", Toast.LENGTH_SHORT).show()
-
-                        // Reset doubleBackToExitPressedOnce after 2 seconds
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            doubleBackToExitPressedOnce = false
-                        }, 2000)
-                    }
+                if (doubleBackToExitPressedOnce) {
+                    showExitConfirmationDialog() // or finishAffinity() if you want to close the whole task
                 } else {
-                    // If not on Home Fragment, navigate to the Home Fragment
-                    viewPager2.currentItem = 0
-                    bottomNav.selectedItemId = R.id.nav_home
+                    doubleBackToExitPressedOnce = true
+                    Toast.makeText(this@MainActivity, "Press back again to exit", Toast.LENGTH_SHORT).show()
+
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        doubleBackToExitPressedOnce = false
+                    }, 2000) // Reset flag after 2 seconds
                 }
             }
         })
@@ -122,33 +134,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private var doubleBackToExitPressedOnce = false
-    override fun onBackPressed() {
-        if (viewPager2.currentItem == 0) { // Home Fragment
-            if (doubleBackToExitPressedOnce) {
-                super.onBackPressed() // Exit app if back pressed twice
-                return
-            }
 
-            this.doubleBackToExitPressedOnce = true
-            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
-
-            // Reset doubleBackToExitPressedOnce after 2 seconds
-            Handler(Looper.getMainLooper()).postDelayed({
-                doubleBackToExitPressedOnce = false
-            }, 2000)
-        } else {
-            // Navigate to Home Fragment if not on Home Fragment
-            viewPager2.currentItem = 0
-            bottomNav.selectedItemId = R.id.nav_home
-        }
-    }
 
     private fun showExitConfirmationDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setMessage("Are you sure you want to exit?")
             .setCancelable(false)
             .setPositiveButton("Yes") { _, _ ->
-                super.onBackPressed()
+                finish()
             }
             .setNegativeButton("No") { dialog, _ ->
                 dialog.dismiss()

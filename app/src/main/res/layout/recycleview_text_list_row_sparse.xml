@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
+
     android:clickable="true"
     android:focusable="true"
     android:orientation="vertical"
@@ -13,7 +13,7 @@
     <TextView
         android:textSize="20sp"
         android:padding="2sp"
-        android:background="@color/box_back"
+        android:background="@color/colorBackground"
         android:id="@+id/text_data_entry_row"
         android:layout_width="match_parent"
         android:layout_height="50sp"

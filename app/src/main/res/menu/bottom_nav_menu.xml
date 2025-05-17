@@ -9,13 +9,13 @@
         android:icon="@drawable/ic_search" />
     <item android:id="@+id/nav_gallery"
         android:title="Mass"
-        android:icon="@drawable/baseline_home_24" />
+        android:icon="@drawable/ic_mass_gram" />
 
     <item android:title="Oxid"
         android:id="@+id/nav_oxid_bottom"
         android:icon="@drawable/ic_molecule_charged"/>
-    <item android:title="Table"
-        android:id="@+id/table"
-        android:icon="@drawable/icon_table"/>
+    <item android:title="More"
+        android:id="@+id/nav_more"
+        android:icon="@drawable/ic_hamburg"/>
 
 </menu>

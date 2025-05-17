@@ -28,7 +28,7 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.hide()
         activityJob = SupervisorJob() // Or use lifecycleScope directly
 
         // Inflate view using ViewBinding

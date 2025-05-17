@@ -10,7 +10,7 @@ import com.kharblabs.equationbalancer2.ui.oxidation.Oxidation
 import com.kharblabs.equationbalancer2.ui.search.SearchFragment
 
 class FragmentAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
-    override fun getItemCount(): Int = 5 // Number of fragments to swipe through
+    override fun getItemCount(): Int = 4 // Number of fragments to swipe through
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
@@ -18,7 +18,6 @@ class FragmentAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter
             1 -> SearchFragment()
             2 -> GalleryFragment()
             3 -> Oxidation()
-            4 -> peridicTable()
             else -> HomeFragment()
         }
     }

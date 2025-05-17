@@ -1,10 +1,23 @@
 package com.kharblabs.equationbalancer2.ui.oxidation
 
+import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableString
 import android.text.SpannableStringBuilder
+import android.text.style.RelativeSizeSpan
+import android.text.style.SuperscriptSpan
+import android.view.Gravity
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.toColorInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.kharblabs.equationbalancer2.R
 import com.kharblabs.equationbalancer2.chemicalPlant.ChemUtils
 import com.kharblabs.equationbalancer2.chemicalPlant.ElementColors
 import com.kharblabs.equationbalancer2.chemicalPlant.OxidationEntry
@@ -23,19 +36,26 @@ class OxidationViewModel : ViewModel() {
     var downString= MutableLiveData<String>().apply { value="" }
     val oxidList = MutableLiveData<List<OxidationEntry>>()
     val text: LiveData<String> = _text
-
+    val spannableResult = MutableLiveData<SpannableStringBuilder>()
+    val oxidationMap = MutableLiveData<Map<String, Map<String, Int>>>()
+    val unKnownElement = MutableLiveData<Boolean>(false)
     fun buttonClick(molecule : String)
     {   var s= molecule
         s = s.replace("\\+".toRegex(), "")
         s = s.replace(" ".toRegex(), "")
         if(s.isNotEmpty()) {
             val returnedMass = oxidationStateCalculator.calculate(s)
-
+            unKnownElement.value= returnedMass.any { (_, innerMap) ->                innerMap.containsKey("--")            }
+          //  val spannable = oxidationStateCalculator.buildOxidationDisplaySpannable(s, returnedMass)
+            oxidationMap.value=returnedMass
                 massLive.value= convertMapToString(returnedMass)
-            oxidList.value= getEntries(returnedMass)
+                oxidList.value= getEntries(returnedMass)
+               // spannableResult.value=spannable
 
         }
     }
+
+
     fun convertMapToString(map: Map<String, Map<String, Int>>): String {
         return map.entries.joinToString(separator = "\n") { (outerKey, innerMap) ->
             "$outerKey: " + innerMap.entries.joinToString(separator = ", ") { (innerKey, value) ->
@@ -44,11 +64,7 @@ class OxidationViewModel : ViewModel() {
         }
     }
     fun getEntries(map: Map<String, Map<String, Int>>): List<OxidationEntry> {
-        val oxidationMap = mapOf(
-            "N" to mapOf("Ammonium" to -3, "Nitrate" to 5),
-            "H" to mapOf("Ammonium" to 1),
-            "O" to mapOf("Nitrate" to -2)
-        )
+
 
         val result = mutableListOf<OxidationEntry>()
         for ((atom, groupMap) in map) {
@@ -75,4 +91,6 @@ class OxidationViewModel : ViewModel() {
 
         return result
     }
+
+
 }

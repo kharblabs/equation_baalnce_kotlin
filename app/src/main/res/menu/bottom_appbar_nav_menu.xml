@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/nav_equation"
+        android:title="Equation"
+        android:icon="@drawable/ic_flask_tilt"
+        app:showAsAction="always" />
+    <item android:id="@+id/nav_search"
+        android:title="Search"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="always" />
+    <item android:id="@+id/nav_gallery"
+        android:title="Mass"
+        app:showAsAction="always"
+        android:icon="@drawable/baseline_home_24" />
+
+    <item android:title="Oxid"
+        app:showAsAction="always"
+        android:id="@+id/nav_oxid_bottom"
+        android:icon="@drawable/ic_molecule_charged"/>
+
+
+</menu>

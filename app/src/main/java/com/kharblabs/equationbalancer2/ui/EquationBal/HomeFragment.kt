@@ -1,5 +1,8 @@
 package com.kharblabs.equationbalancer2.ui.EquationBal
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
@@ -18,6 +21,8 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.TextView
 import android.widget.TextView.BufferType
+import androidx.activity.OnBackPressedCallback
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -28,6 +33,8 @@ import com.kharblabs.equationbalancer2.dataManagers.AssetFileReader
 import com.kharblabs.equationbalancer2.dataManagers.MoleculeAdapter
 import com.kharblabs.equationbalancer2.dataManagers.MoleculeFragementListner
 import com.kharblabs.equationbalancer2.databinding.FragmentHomeBinding
+import com.kharblabs.equationbalancer2.otherUtils.Animators
+import com.kharblabs.equationbalancer2.otherUtils.CollapsibleViewAnimator
 import com.kharblabs.equationbalancer2.ui.AnimatorsHolders
 import katex.hourglass.`in`.mathlib.MathView
 import kotlinx.coroutines.CoroutineScope
@@ -51,6 +58,7 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
     private val binding get() = _binding!!
     private val fileReader by lazy { AssetFileReader(requireContext()) }
     val animatorsHolders= AnimatorsHolders()
+    val aninamtors = Animators()
     lateinit var homeViewModel: HomeViewModel
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
@@ -104,11 +112,11 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
             false
         }
         homeViewModel.displayErrorString.observe(viewLifecycleOwner){editText.error=it}
-
+        anim.setDuration(300);
         val main_button : Button = binding.mainButton
         main_button.setOnClickListener{homeViewModel.onButtonClick()}
         return root
-        anim.setDuration(300);
+
 
     }
 
@@ -169,20 +177,17 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
             if(it) {
                 tipCard.animation=anim
                 tipCard.visibility = View.GONE
-                inputCard.visibility =View.GONE
-                outputCard.visibility = View.VISIBLE
-
+                showOutput()
             }
             else
             {
                 tipCard.visibility =View.VISIBLE
-                inputCard.visibility= View.VISIBLE
-                outputCard.visibility= View.GONE
-                binding.scrollView2.visibility= View.GONE
+                showInput()
             }
         }
 
         outputINputShow.setOnClickListener { homeViewModel.onEquationInputClicked() }
+
         setupStochRecyclers()
         outputCard.setOnClickListener { homeViewModel.checkClicked() }
         limitCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -202,6 +207,7 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
 
            }
         }
+        binding.resultTexter.setOnClickListener { homeViewModel.onEquationInputClicked() }
         homeViewModel.limitingName.observe(viewLifecycleOwner) { it->
             limitingReagentName.text =
                 "Limiting Reagent : " + homeViewModel.limitingName.value
@@ -215,7 +221,12 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
             if (shouldShow) {
                 // Make the other UI elements visible here
                 binding.scrollView2.visibility = View.VISIBLE
+                aninamtors.animateItemsInLinearLayout(binding.scrollView2,binding.linearLayout2)
 
+            }
+            else
+            {
+                aninamtors.animateItemsOutLinearLayout(binding.linearLayout2)
             }
         }
         val textView:TextView = binding.resultTexter
@@ -223,13 +234,15 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
 
         homeViewModel.displayText.observe(viewLifecycleOwner) {
 
-            animateReadySpannable(textView, it) {                  binding.scrollView2.visibility = View.VISIBLE           }
-            //textView.setText(it,BufferType.SPANNABLE)
+            aninamtors.animateReadySpannable(textView, it) {homeViewModel.setOtherElementsVisibility(true)}
+
+          /*  //textView.setText(it,BufferType.SPANNABLE)
             textView.post {
                 val layout = textView.layout ?: return@post
-
+                homeViewModel.setOtherElementsVisibility(true)
                 if (layout.lineCount == 1) {
                     // It fits in one line, nothing to do.
+
                     return@post
                 }
                 if (textView.lineCount > 1) {
@@ -237,22 +250,41 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
                         val splitText = homeViewModel.splitTextIfNeeded(it)
                        // textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, originalTextSize)
 
-                        animateReadySpannable(textView, splitText){homeViewModel.setOtherElementsVisibility(true)}
+                        aninamtors.animateReadySpannable(textView, splitText){homeViewModel.setOtherElementsVisibility(true)}
                     }
                 }
-            }
+            }*/
         }
         homeViewModel.extaradata.observe(viewLifecycleOwner) {
             binding.extraInfoHandler.text=it
         }
-        homeViewModel.isLoading.observe(viewLifecycleOwner) {
-            it->
-            if(it)
-                binding.hinter.text="running in background"
+        homeViewModel.isLoading.observe(viewLifecycleOwner) { it ->
+            if (it)
+                binding.hinter.text = "running in background"
             else
-                binding.hinter.text="run complete"
+                binding.hinter.text = "run complete"
         }
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Your custom logic here
+                if (homeViewModel.balancedAllGood.value ==true) {
+                    // Custom logic (e.g., update UI or show dialog)
+                    homeViewModel.onEquationInputClicked()
+
+                } else {
+                    // Disable this callback and propagate the back event to system
+
+                    this.isEnabled = false
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                    this.isEnabled = true
+                }
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
+
+
     private var isTitleVisible = true
     private var currentlyEditingIndex: Int? = null
     fun setupStochRecyclers()
@@ -298,40 +330,21 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
         homeViewModel.editClickAdd(buttonText)}
 
 
-    private var ractantSize = 0
-    fun animateReadySpannable(
-        textView: TextView,
-        fullText: SpannableStringBuilder?,
-        delayMillis: Long = 20L,
-        onAnimationComplete: () -> Unit
-    ) {
-        fullText?.let {
-            CoroutineScope(Dispatchers.Main).launch {
-                val displayed = SpannableStringBuilder()
-                for (i in 0 until fullText.length) {
-                    displayed.append(fullText[i])
-
-                    val spans = fullText.getSpans(0, i + 1, CharacterStyle::class.java)
-                    for (span in spans) {
-                        val start = fullText.getSpanStart(span)
-                        val end = fullText.getSpanEnd(span)
-                        if (start <= i) {
-                            displayed.setSpan(
-                                span,
-                                start,
-                                minOf(end, i + 1),
-                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                            )
-                        }
-                    }
-                    textView.setText(displayed, BufferType.SPANNABLE)
-
-                    delay(delayMillis)
-                }
-                onAnimationComplete()
-            }
+    // Animate from InputCard → OutputCard
+    fun showOutput() {
+        animator.collapse(binding.inputCard, direction = "up") {
+            animator.expand(binding.outputHodler, from = "down")
         }
     }
+
+    fun showInput() {
+        animator.collapse(binding.outputHodler, direction = "down") {
+            animator.expand(binding.inputCard, from = "up")
+        }
+    }
+    val animator = CollapsibleViewAnimator()
+    private var ractantSize = 0
+
     fun showExamples() {
         val limitCheckBox=binding.limitChecker
         val inputTextField=binding.editText

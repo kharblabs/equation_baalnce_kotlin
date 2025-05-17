@@ -472,4 +472,8 @@
     <string name="title_activity_settings2">SettingsActivity2</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="about_menu">About</string>
+    <string name="share_menu">Share</string>
+    <string name="caution_unknown_element_states_may_be_wrong">Caution : Unknown element, states may be wrong</string>
+    <string name="element_wise_oxidation_states">Element wise oxidation states:</string>
 </resources>
