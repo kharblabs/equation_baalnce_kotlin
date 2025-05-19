@@ -6,14 +6,4 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <!-- Main content area -->
-    <FrameLayout
-        android:id="@+id/content_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?android:attr/windowBackground"/>
-
-    <!-- BottomAppBar -->
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

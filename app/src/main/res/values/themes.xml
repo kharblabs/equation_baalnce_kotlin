@@ -26,7 +26,11 @@
 
     <style name="Theme.EquationBalancer.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.EquationBalancer.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.EquationBalancer.PopupOverlay" parent="ThemeOverlay.AppCompat.DayNight" >
+        <item name="android:textColor">@color/text_color_primary</item>
+        <item name="android:background">@color/colorBackground</item>
+
+    </style>
 
     <style name="DrawerAnimation">
         <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>

@@ -23,6 +23,7 @@ import com.kharblabs.equationbalancer2.chemicalPlant.ElementColors
 import com.kharblabs.equationbalancer2.chemicalPlant.OxidationEntry
 import com.kharblabs.equationbalancer2.chemicalPlant.OxidationStateCalculator
 import com.kharblabs.equationbalancer2.dataManagers.StringMakers
+import com.kharblabs.equationbalancer2.otherUtils.StopwatchTimer
 
 class OxidationViewModel : ViewModel() {
     private val _text = MutableLiveData<String>().apply {
@@ -39,17 +40,25 @@ class OxidationViewModel : ViewModel() {
     val spannableResult = MutableLiveData<SpannableStringBuilder>()
     val oxidationMap = MutableLiveData<Map<String, Map<String, Int>>>()
     val unKnownElement = MutableLiveData<Boolean>(false)
+    val isOrganic = MutableLiveData<Boolean>(false)
+    val residualChargeLive = MutableLiveData<Int>(0)
+    val organicCheckList= listOf<String>( "CH3","CH2","C2H5","CHO","COOH","C2H4")
     fun buttonClick(molecule : String)
-    {   var s= molecule
+    {  val timer = StopwatchTimer()
+        var s= molecule
         s = s.replace("\\+".toRegex(), "")
         s = s.replace(" ".toRegex(), "")
         if(s.isNotEmpty()) {
-            val returnedMass = oxidationStateCalculator.calculate(s)
+            val (returnedMass,residualCharge) = oxidationStateCalculator.calculate(s)
             unKnownElement.value= returnedMass.any { (_, innerMap) ->                innerMap.containsKey("--")            }
+            isOrganic.value= organicCheckList.any { it in molecule }
+            residualChargeLive.value=residualCharge
           //  val spannable = oxidationStateCalculator.buildOxidationDisplaySpannable(s, returnedMass)
-            oxidationMap.value=returnedMass
+                oxidationMap.value=returnedMass
                 massLive.value= convertMapToString(returnedMass)
                 oxidList.value= getEntries(returnedMass)
+               moleculeName.value=formatMoleculeName(s,"#2196F3".toColorInt())
+                downString.value= timer.stop().toString()+" ms"
                // spannableResult.value=spannable
 
         }
@@ -81,8 +90,9 @@ class OxidationViewModel : ViewModel() {
         digitColor: Int? = null,
     ): SpannableStringBuilder {
         val result = SpannableStringBuilder()
-
-        val colorMap= ElementColors().elementColors
+        val regex = "(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)"
+        val atoms = ChemUtils().elementParser(moleculeName)
+        val colorMap= ElementColors().assignPastelColors(atoms?.map { it.name })
 
         //  result.append(stringMakers.converttoSpannable(ALS!![i], digitColor))
 
@@ -91,6 +101,5 @@ class OxidationViewModel : ViewModel() {
 
         return result
     }
-
 
 }

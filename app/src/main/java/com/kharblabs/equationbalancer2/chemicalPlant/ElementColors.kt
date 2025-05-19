@@ -68,7 +68,8 @@ class ElementColors {
             "#D7BDE2", // Pastel Purple
             "#A0E7E5"  // Pastel Teal
         )
-        val darkenFactor = 0.75f  // Adjust this between 0.6–0.9 for stronger or lighter darkening
+
+        val darkenFactor = 0.9f  // Adjust this between 0.6–0.9 for stronger or lighter darkening
 
         fun darkenColor(hex: String): Int {
             val color = hex.toColorInt()
@@ -78,7 +79,7 @@ class ElementColors {
             return Color.rgb(r, g, b)
         }
 
-        val pastelColors = pastelHexColors.map { darkenColor(it) }
+        val pastelColors = elementGroupColors.map { it.value } // pastelHexColors.map { darkenColor(it) }
 
         return strings.mapIndexed { index, value ->
             val color = pastelColors[index % pastelColors.size]

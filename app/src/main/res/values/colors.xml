@@ -19,9 +19,9 @@
     <color name="colorPrimaryDark">#FF7733</color>          <!-- Darker Orange -->
     <color name="colorPrimaryLight">#FFCC99</color>         <!-- Light Orange -->
     <color name="colorAccent">#FF5500</color>               <!-- Vibrant Orange -->
-    <color name="colorBackground">#FFF6E9</color>           <!-- Very Light Orange -->
+    <color name="colorBackground">#FFF8F5</color>           <!-- Very Light Orange -->
     <color name="colorBackgroundGradientStart">#FFF0E0</color>
-    <color name="colorBackgroundGradientEnd">#FFF9F0</color>
+    <color name="colorBackgroundGradientEnd">#FDFDFD</color>
     <color name="colorSurface">#FFFFFF</color>              <!-- White Surface -->
     <color name="colorOnPrimary">#FFFFFF</color>            <!-- White text on primary -->
     <color name="colorOnSurface">#333333</color>
@@ -41,7 +41,8 @@
     <color name="reactions_chain_highlight_color">#4bf7ff00</color>
     <color name="highlight_coefficients_in_balanced_equation">#ff9310</color>
     <color name="text_color_primary">#000000</color>
-    <color name="box_back">#fffdfd</color>
+    <color name="box_back">@color/colorBackground</color>
+    <color name="box_back_main">#FFF6E9</color>
     <color name="backMain">#adadad</color>
 
 

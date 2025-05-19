@@ -20,7 +20,7 @@
     <string name="clear_history">Clear History</string>
     <string name="rate_stars">Rate 5 Stars</string>
     <string name="clr">Clear</string>
-    <string name="stoch">Stoichiometry</string>
+    <string name="stoch">️ ️ ⚖️ Stoichiometry</string>
     <string name="export">Export to file</string>
     <string name="balance">Balance</string>
     <string name="clear_all">Clear All</string>
@@ -106,7 +106,7 @@
     <string name="subs_one_time">$1.5 One Time Purchase</string>
     <string name="unable_to_bal">Unable to balance ! Would you like to search for it ? </string>
     <string name="unable_to_bal_reason">Some equations,which are a combination of multiple reactions, cannot be balanced, but you can see a balanced equation in search.</string>
-    <string name="therm_data">Thermodynamic Data :</string>
+    <string name="therm_data">🔥Thermodynamic Data :</string>
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
@@ -476,4 +476,8 @@
     <string name="share_menu">Share</string>
     <string name="caution_unknown_element_states_may_be_wrong">Caution : Unknown element, states may be wrong</string>
     <string name="element_wise_oxidation_states">Element wise oxidation states:</string>
+    <string name="ion_wise_oxidation_states">Ion wise oxidation states:</string>
+    <string name="examples_label">Examples ?</string>
+    <string name="equation">Equation :</string>
+    <string name="caution_likely_organic_molecule_states_might_be_wrong">Caution Likely Organic Molecule, States might be wrong</string>
 </resources>

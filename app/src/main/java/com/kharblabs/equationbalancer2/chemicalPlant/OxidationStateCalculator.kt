@@ -12,6 +12,11 @@ import android.text.style.SuperscriptSpan
 import android.text.style.TypefaceSpan
 
 data class Ion(val name: String, val formula: String, val charge: Int, val oxidationStates: Map<String, Int>)
+sealed class Token(val count: Int) {
+    data class Element(val symbol: String, val count_: Int) : Token(count_)
+    data class Ion(val name: String, val count_: Int) : Token(count_)
+    data class Group(val tokens: List<Token>, val count_: Int) : Token(count_)
+}
 
 class OxidationStateCalculator {
 
@@ -33,7 +38,41 @@ class OxidationStateCalculator {
         Ion("Perchlorate", "ClO4", -1, mapOf("Cl" to +7, "O" to -2)),
         Ion("Chlorate", "ClO3", -1, mapOf("Cl" to +5, "O" to -2)),
         Ion("Chlorite", "ClO2", -1, mapOf("Cl" to +3, "O" to -2)),
-        Ion("Hypochlorite", "ClO", -1, mapOf("Cl" to +1, "O" to -2))
+        Ion("Hypochlorite", "ClO", -1, mapOf("Cl" to +1, "O" to -2)),
+        Ion("Bicarbonate", "HCO3", -1, mapOf("H" to +1, "C" to +4, "O" to -2)),
+        Ion("Hydrogen_sulfate", "HSO4", -1, mapOf("H" to +1, "S" to +6, "O" to -2)),
+        Ion("Hydrogen_sulfite", "HSO3", -1, mapOf("H" to +1, "S" to +4, "O" to -2)),
+        Ion("Dihydrogen_phosphate", "H2PO4", -1, mapOf("H" to +1, "P" to +5, "O" to -2)),
+        Ion("Hydrogen_phosphate", "HPO4", -2, mapOf("H" to +1, "P" to +5, "O" to -2)),
+
+        Ion("Hydronium", "H3O", +1, mapOf("H" to +1, "O" to -2)),
+        Ion("Peroxide", "O2", -2, mapOf("O" to -1)),
+        Ion("Superoxide", "O2", -1, mapOf("O" to -0)), // Special case, often avoided in basic apps
+
+        Ion("Thiosulfate", "S2O3", -2, mapOf("S" to +2, "O" to -2)), // Approx. oxidation
+        Ion("Oxalate", "C2O4", -2, mapOf("C" to +3, "O" to -2)),
+        Ion("Tartrate", "C4H4O6", -2, mapOf("C" to +3, "H" to +1, "O" to -2)), // Approx.
+        Ion("Formate", "HCOO", -1, mapOf("H" to +1, "C" to +2, "O" to -2)),
+
+        Ion("Cyanate", "OCN", -1, mapOf("O" to -2, "C" to +4, "N" to -3)),
+        Ion("Thiocyanate", "SCN", -1, mapOf("S" to -2, "C" to +4, "N" to -3)),
+
+        Ion("Arsenate", "AsO4", -3, mapOf("As" to +5, "O" to -2)),
+        Ion("Arsenite", "AsO3", -3, mapOf("As" to +3, "O" to -2)),
+
+        Ion("Tetraborate", "B4O7", -2, mapOf("B" to +3, "O" to -2)), // Common in borax
+        Ion("Borate", "BO3", -3, mapOf("B" to +3, "O" to -2)),
+
+        Ion("Silicate", "SiO4", -4, mapOf("Si" to +4, "O" to -2)),
+
+        Ion("Tellurate", "TeO4", -2, mapOf("Te" to +6, "O" to -2)),
+        Ion("Tellurite", "TeO3", -2, mapOf("Te" to +4, "O" to -2)),
+
+        Ion("Manganate", "MnO4", -2, mapOf("Mn" to +6, "O" to -2)),
+        Ion("Ethyl", "C2H5", 1, mapOf("C" to -2, "H" to +1)),
+        Ion("Ethyl", "CH3CH2", 1, mapOf("C" to -2, "H" to +1)),
+        Ion("Methyl", "CH3", 1, mapOf("C" to -2, "H" to +1)),
+
     )
 
     private val fixedStates = mapOf(
@@ -42,29 +81,40 @@ class OxidationStateCalculator {
         "Ca" to +2, "Mg" to +2, "Ba" to +2,
         "Al" to +3, "Zn" to +2, "Ag" to +1
     )
+    fun assignOnlyOneIon(formula: String,netCharge:Int): Pair<Map<String, Map<String, Int>>,Int>  {
 
-    fun calculate(input: String): Map<String, Map<String, Int>> {
+        return Pair(mapOf(formula to mapOf(getNameFromSymbol(formula)+" Molecule" to 0)),netCharge)
+    }
+    fun calculate(input: String): Pair<Map<String, Map<String, Int>>,Int> {
         val (rawFormula, netCharge) = extractCharge(input)
+        val orderofElements=rawFormula.replace(Regex("[^A-Za-z ]"), "").split(Regex("(?=[A-Z])")).filter { it.isNotEmpty() }
+        val numElements=orderofElements.toSet().size
+        //if molecule or ion
+        if(numElements==1)
+            return assignOnlyOneIon(orderofElements[0],netCharge)
         val formula = replaceIonFormulasWithNames(rawFormula)
-
+        val brokenFormula= ChemUtils().BracketBreaker(formula)
         val output = mutableMapOf<String, MutableMap<String, Int>>()
 
-        val ionsFound = findPolyatomicIons(formula)
-        val formulaRemaining = removeIonNames(formula, ionsFound)
-
+        val ionsFound = findPolyatomicIons(brokenFormula.toString())
+        val formulaRemaining = removeIonNames(brokenFormula.toString(), ionsFound)
+        var residualcharge=netCharge
         for ((ion, count) in ionsFound) {
             for ((element, ox) in ion.oxidationStates) {
                 output.computeIfAbsent(element) { mutableMapOf() }
                     .compute(ion.name) { _, v -> v ?: ox }
+
             }
+            residualcharge=residualcharge-ion.charge*count
         }
 
         val atoms = flattenFormula(formulaRemaining)
-        if (atoms.isEmpty()) return output
-        val solved = try {
-            solveOxidationStates(atoms, netCharge)
+        if (atoms.isEmpty()) return Pair(reorderNestedMap(output,orderofElements),residualcharge)
+
+        val (solved,residualChargeNew) = try {
+            solveOxidationStates(atoms, residualcharge)
         } catch (e: Exception) {
-            emptyMap()
+            Pair(emptyMap(),0)
         }
 
         for ((element, ox) in solved) {
@@ -72,13 +122,26 @@ class OxidationStateCalculator {
             output.computeIfAbsent(element) { mutableMapOf() }[getNameFromSymbol(element)] = ox
         }
 
-        return output
+        return Pair(reorderNestedMap(output,orderofElements),-(residualChargeNew+residualcharge))
     }
     fun getNameFromSymbol(string: String): String
     {   val t= consts.elements.indexOf(string)
         if(t>-1)
             return consts.elementNames[t]
         return "--"
+    }
+
+    fun reorderNestedMap(
+        original: Map<String, Map<String, Int>>,
+        desiredOrder: List<String>
+    ): LinkedHashMap<String, Map<String, Int>> {
+        val ordered = linkedMapOf<String, Map<String, Int>>()
+
+        for (key in desiredOrder) {
+            original[key]?.let { ordered[key] = it }
+        }
+
+        return ordered
     }
     val consts= ConstantValues()
     private fun extractCharge(formula: String): Pair<String, Int> {
@@ -169,7 +232,7 @@ class OxidationStateCalculator {
     private fun solveOxidationStates(
         elementCounts: Map<String, Int>,
         totalCharge: Int
-    ): Map<String, Int> {
+    ): Pair<Map<String, Int>,Int> {
         val known = mutableMapOf<String, Int>()
         val unknowns = mutableListOf<String>()
         var knownSum = 0
@@ -184,13 +247,13 @@ class OxidationStateCalculator {
             }
         }
 
-        if (unknowns.isEmpty()) return known
+        if (unknowns.isEmpty()) return Pair(known,-knownSum)
 
         if (unknowns.size == 1) {
             val el = unknowns[0]
             val count = elementCounts[el]!!
             val value = (totalCharge - knownSum) / count
-            return known + (el to value)
+            return Pair(known + (el to value),-(knownSum+value*count))
         }
 
         if (unknowns.size == 2) {
@@ -201,7 +264,7 @@ class OxidationStateCalculator {
                 val remaining = target - c1 * x
                 if (remaining % c2 == 0) {
                     val y = remaining / c2
-                    return known + mapOf(e1 to x, e2 to y)
+                    return Pair(known + mapOf(e1 to x, e2 to y),-target)
                 }
             }
             throw IllegalStateException("No integer solution found")
@@ -282,80 +345,6 @@ class OxidationStateCalculator {
         val padStart = totalPadding / 2
         val padEnd = totalPadding - padStart
         return " ".repeat(padStart) + text + " ".repeat(padEnd)
-    }
-    fun buildOxidationDisplaySpannable2(formula:String, oxidationMap :Map<String, Map<String, Int>> ): SpannableStringBuilder {
-        data class ElementInfo(
-            val element: String,
-            val count: Int,
-            val oxidationNumber: Int
-        )
 
-        //val oxidationMap = calculate(formula)
-        val elementCounts = flattenFormula(formula)
-
-        val elements = elementCounts.map { (element, count) ->
-            val oxMap = oxidationMap[element]
-            val ox = oxMap?.get("overall") ?: oxMap?.values?.firstOrNull() ?: 0
-            ElementInfo(element, count, ox)
-        }
-
-        val builder = SpannableStringBuilder()
-
-        fun appendPipe() {
-            val start = builder.length
-            builder.append(" | ")
-            builder.setSpan(
-                ForegroundColorSpan(Color.GRAY),
-                start,
-                builder.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-        }
-
-        fun appendSubscriptedElement(e: ElementInfo) {
-            builder.append(e.element)
-            if (e.count > 1) {
-                val start = builder.length
-                builder.append(e.count.toString())
-                builder.setSpan(SuperscriptSpan(), start, builder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                builder.setSpan(RelativeSizeSpan(0.7f), start, builder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            }
-        }
-
-        fun appendSuperscriptedOxNumber(ox: Int) {
-            val oxStr = if (ox == 0) "0" else "${if (ox > 0) "+" else ""}$ox"
-            val start = builder.length
-            builder.append(oxStr)
-            builder.setSpan(SuperscriptSpan(), start, builder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            builder.setSpan(RelativeSizeSpan(0.7f), start, builder.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            builder.setSpan(
-                ForegroundColorSpan(
-                    when {
-                        ox > 0 -> Color.RED
-                        ox < 0 -> Color.BLUE
-                        else -> Color.DKGRAY
-                    }
-                ),
-                start,
-                builder.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-        }
-
-        // Line 1: Elements
-        elements.forEachIndexed { i, e ->
-            appendSubscriptedElement(e)
-            if (i != elements.lastIndex) appendPipe()
-        }
-
-        builder.append("\n")
-
-        // Line 2: Oxidation numbers
-        elements.forEachIndexed { i, e ->
-            appendSuperscriptedOxNumber(e.oxidationNumber)
-            if (i != elements.lastIndex) appendPipe()
-        }
-
-        return builder
     }
 }

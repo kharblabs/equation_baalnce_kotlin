@@ -5,6 +5,10 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
@@ -19,8 +23,10 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.TextView.BufferType
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
@@ -28,6 +34,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.kharblabs.equationbalancer2.R
 import com.kharblabs.equationbalancer2.dataManagers.AssetFileReader
 import com.kharblabs.equationbalancer2.dataManagers.MoleculeAdapter
@@ -119,7 +126,13 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
 
 
     }
+    fun getAllMolecules(): List<String>
+    {
+        val reactants = homeViewModel.reactantList.value?.map { it.name } ?: emptyList()
+        val products = homeViewModel.productList.value?.map { it.name } ?: emptyList()
+        return reactants + products
 
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -207,7 +220,9 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
 
            }
         }
-        binding.resultTexter.setOnClickListener { homeViewModel.onEquationInputClicked() }
+        binding.resultTexter.setOnClickListener {
+        showReactionBottomSheet(requireContext(),homeViewModel.displayText.toString(),getAllMolecules(),false)
+        }
         homeViewModel.limitingName.observe(viewLifecycleOwner) { it->
             limitingReagentName.text =
                 "Limiting Reagent : " + homeViewModel.limitingName.value
@@ -234,7 +249,10 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
 
         homeViewModel.displayText.observe(viewLifecycleOwner) {
 
-            aninamtors.animateReadySpannable(textView, it) {homeViewModel.setOtherElementsVisibility(true)}
+            aninamtors.animateReadySpannable(textView, it) {
+              homeViewModel.setOtherElementsVisibility(true)
+
+            }
 
           /*  //textView.setText(it,BufferType.SPANNABLE)
             textView.post {
@@ -326,10 +344,71 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
         }
 
     }
+
+    private fun showReactionBottomSheet(
+        context: Context,
+        react: String,
+        molecules: List<String>,
+        isPro: Boolean,
+        copyLabel: String = "Copy Reaction",
+        balLabel: String = "Balance & Send"
+    ) {
+
+        val dialog = BottomSheetDialog(context)
+        val sheetView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_home_reaction, null)
+
+        val container = sheetView.findViewById<LinearLayout>(R.id.moleculeListContainer)
+        val btnClose = sheetView.findViewById<Button>(R.id.btnClose)
+        molecules.forEach { molecule ->
+
+            val itemView = if(isPro ) LayoutInflater.from(context).inflate(R.layout.bottom_sheet_molecule_inset_pro, container, false) else LayoutInflater.from(context).inflate(R.layout.bottom_sheet_molecule_inset, container, false)
+
+            val txtName = itemView.findViewById<TextView>(R.id.textMoleculeName)
+            val btnCopy = itemView.findViewById<TextView>(R.id.btnCopy)
+            val btnDetails = itemView.findViewById<TextView>(R.id.btnDetails)
+
+            txtName.text = molecule
+            if(isPro) {
+                btnCopy.setOnClickListener {
+                    val clipboard =
+                        context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip = ClipData.newPlainText("Molecule", molecule)
+                    clipboard.setPrimaryClip(clip)
+                    Toast.makeText(context, "Copied: $molecule", Toast.LENGTH_SHORT).show()
+                }
+
+                btnDetails.setOnClickListener {
+                    Toast.makeText(requireContext(), "Details for $molecule", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+            else{
+                btnCopy.setOnClickListener {
+                 processInApp()
+                }
+
+                btnDetails.setOnClickListener {
+                    processInApp()
+                }
+            }
+            container.addView(itemView)
+        }
+
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.setContentView(sheetView)
+        dialog.show()
+    }
     fun onButtonClickedAdd(view: View) { val buttonText = (view as? Button)?.text?.toString() ?: return
-        homeViewModel.editClickAdd(buttonText)}
+        homeViewModel.editClickAdd(buttonText)
+    }
 
-
+    fun processInApp()
+    {
+        Toast.makeText(requireContext(),"Processing in App",Toast.LENGTH_SHORT).show()
+    }
     // Animate from InputCard → OutputCard
     fun showOutput() {
         animator.collapse(binding.inputCard, direction = "up") {
@@ -411,5 +490,9 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
         TODO("Not yet implemented")
     }
 
-
+    private fun copyToClipboard(context: Context, label: String, text: String) {
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+        val clip = ClipData.newPlainText(label, text)
+        clipboard?.setPrimaryClip(clip)
+    }
 }

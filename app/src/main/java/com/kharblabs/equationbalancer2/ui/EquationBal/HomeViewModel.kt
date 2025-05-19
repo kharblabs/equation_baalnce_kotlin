@@ -4,7 +4,6 @@ import android.text.SpannableStringBuilder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.kharblabs.equationbalancer2.chemicalPlant.Balancer
 import com.kharblabs.equationbalancer2.chemicalPlant.ChemUtils
@@ -14,7 +13,6 @@ import com.kharblabs.equationbalancer2.chemicalPlant.ThreadResult
 import com.kharblabs.equationbalancer2.dataManagers.MoleculeEntry
 import com.kharblabs.equationbalancer2.otherUtils.StopwatchTimer
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlin.apply
 
@@ -56,7 +54,7 @@ class HomeViewModel : ViewModel() {
                 if (t.resultType == 1) {
 
 
-                    displayText.postValue( t.resulting)
+                    displayText.postValue( splitTextIfNeeded(t.resulting))
 
                     displayLatex.postValue(t.LatexString)
 
@@ -149,7 +147,9 @@ class HomeViewModel : ViewModel() {
         productList=tempL
 
     }
-    fun splitTextIfNeeded(spannable: SpannableStringBuilder): SpannableStringBuilder {
+    fun splitTextIfNeeded(spannable: SpannableStringBuilder?): SpannableStringBuilder {
+        if(spannable !=null)
+        {
         val fullText = spannable.toString()
         val delimiter: String = "="
         val lastDelimiterIndex = fullText.lastIndexOf(delimiter)
@@ -165,6 +165,8 @@ class HomeViewModel : ViewModel() {
         }
         }
         return spannable
+        }
+        return SpannableStringBuilder()
     }
     fun editClickAdd(s:String)
     {

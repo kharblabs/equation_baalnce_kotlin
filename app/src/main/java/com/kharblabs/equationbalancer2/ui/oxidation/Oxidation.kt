@@ -1,6 +1,7 @@
 package com.kharblabs.equationbalancer2.ui.oxidation
 
 import android.animation.LayoutTransition
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
@@ -25,6 +26,7 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import android.widget.TextView.BufferType
+import androidx.collection.emptyLongSet
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -101,6 +103,7 @@ class Oxidation : Fragment() {
         }
         oxidationViewModel.oxidationMap.observe(viewLifecycleOwner) {
             try {
+                binding.oxidationResultMolecule.text=binding.molecularFormulaTextInput.text.toString()
                 populateOxidationTable(binding.oxidationTable, it)
                 buildOxidationDisplayViews(
                     requireContext(),
@@ -114,12 +117,80 @@ class Oxidation : Fragment() {
 
             }
         }
+        oxidationViewModel.moleculeName.observe (viewLifecycleOwner){
+            binding.oxidationResultMolecule.text=it
+        }
         viewModel.oxidList.observe(viewLifecycleOwner, Observer { entries ->
             listView.adapter = OxidationAdapter(requireContext(), entries)
         })
+        viewModel.residualChargeLive.observe(viewLifecycleOwner) {
+            var s=""
+            var textColor=binding.oxidationNetCharge.textColors.defaultColor
+            if(it==0) {
+                s = "0 , Neutral"
+
+            }
+            else if(it>0){
+                s="+$it, Cation"
+                textColor= Color.RED
+            }
+            else{
+                s="$it, Anion"
+                textColor=Color.BLUE
+            }
+            binding.oxidationNetCharge.text=s //+ viewModel.downString.value
+            binding.oxidationNetCharge.setTextColor(textColor)
+        }
+        viewModel.isOrganic.observe(viewLifecycleOwner) {
+            if (it)
+                binding.organicError.visibility= View.VISIBLE
+            else
+                binding.organicError.visibility= View.GONE
+        }
+
+        binding.textViewExample.setOnClickListener { showExamples() }
         super.onViewCreated(view, savedInstanceState)
     }
     val unKnownElement =false
+    fun showExamples() {
+        val inputTextField=binding.molecularFormulaTextInput
+        try {
+
+
+
+            val elsa = arrayOf(
+                "AgNO3",
+                "Fe2O3",
+                "C2H5OH",
+                "H2O",
+                "H2SO4",
+                "Fe2(SO4)3",
+                "K4Fe(CN)6",
+                "KMnSO4"
+            )
+
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Example Equation :")
+
+            builder.setItems(elsa) { _, i ->
+                try {
+                    inputTextField.setText(elsa[i])
+                    val bundle = Bundle().apply {
+                        putString("eq", elsa[i])
+                    }
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            builder.create().show()
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     private fun populateOxidationTable(tableLayout: TableLayout, data: Map<String, Map<String, Int>>) {
         // Group elements by ion
         val ionToElements = mutableMapOf<String, MutableList<SpannableStringBuilder>>()
@@ -208,11 +279,11 @@ class Oxidation : Fragment() {
         val oxidationNumbers: List<Int>
     )
 
-    val elementCounts = OxidationStateCalculator().flattenFormula(formula.split("^")[0])
-    val elements = elementCounts.map { (element, count) ->
+    val elementCounts = oxidationMap.keys
+    val elements = elementCounts.map { element ->
         val oxMap = oxidationMap[element] ?: emptyMap()
         val values = oxMap.values.toSet().toList().sorted()
-        ElementInfo(element, count, values)
+        ElementInfo(element, 0, values)
     }
 
     container.removeAllViews()

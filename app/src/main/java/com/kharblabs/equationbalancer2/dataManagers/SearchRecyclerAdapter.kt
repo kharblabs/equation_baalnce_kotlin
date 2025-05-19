@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.text.SpannableString
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import android.widget.TextView.BufferType
 import android.widget.Toast
 import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 /**
  * Kotlin conversion of the search_recycler_adaptor.
@@ -96,27 +98,165 @@ class SearchRecyclerAdapter : RecyclerView.Adapter<SearchRecyclerAdapter.SearchV
         // Get the data for the current position safely
         val mainText = reactionList.getOrNull(position) ?: return // Exit if position is invalid
 
-        holder.textviewSearch.setText(ReactionTextFormatter(mainText.toString()),BufferType.SPANNABLE)
+        holder.textviewSearch.setText(ReactionTextFormatter(mainText.toString()), TextView.BufferType.SPANNABLE)
 
+        // Handle Molecule Display (name, mass)
         if (isMoleculeSearch) {
-            // Molecule search specific bindings
+            holder.textviewSearchNames?.text = moleculeNameList?.getOrNull(position)
+            holder.textviewSearchMasses?.text =
+                if (purchased) "${moleculeMassList?.getOrNull(position)} gm/mol"
+                else "Mass View only in pro mode"
 
-            holder.textviewSearchNames?.text = moleculeNameList?.getOrNull(position) ?: ""
-            holder.textviewSearchMasses?.let { massTextView ->
-                if (purchased) {
-                    val mass = moleculeMassList?.getOrNull(position) ?: ""
-                    massTextView.text = "$mass gm/mol" // Use string template
-                } else {
-                    massTextView.text = "Mass View only in pro mode"
-                }
+            // Handle click for molecules
+            holder.itemView.setOnClickListener { view ->
+                val mass = holder.textviewSearchMasses?.text.toString()
+                val name = holder.textviewSearchNames?.text.toString()
+                val formula = holder.textviewSearch.text.toString()
+
+                showMassBottomSheet(
+                    context = view.context,
+                    mass = mass,
+                    name = name,
+                    formula = formula,
+                    isPro = purchased
+                )
             }
-            // Setup click listener for molecule items
-         //   setupMoleculeItemClickListener(holder)
+
         } else {
-            // Reaction search specific bindings (only main text view is guaranteed)
-            // Setup click listener for reaction items
-          //  setupReactionItemClickListener(holder, mainText.toString())
+            // Handle click for reactions
+            holder.textviewSearch.setOnClickListener { view ->
+                val rawText = holder.textviewSearch.text.toString()
+                val cleanedText = rawText.replace(Regex("(?<=[\\+ =])([0-9])(?=[^a-z])"), "")
+
+                showReactionBottomSheet(
+                    context = view.context,
+                    react = cleanedText,
+                    isPro = purchased,
+                    copyLabel = "Copy Reaction",
+                    balLabel = "Balance Equation"
+                )
+            }
         }
+    }
+    private fun showReactionBottomSheet(
+        context: Context,
+        react: String,
+        isPro: Boolean,
+        copyLabel: String = "Copy Reaction",
+        balLabel: String = "Balance & Send"
+    ) {
+        val dialog = BottomSheetDialog(context)
+        val view = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_reaction, null)
+        dialog.setContentView(view)
+        val reactionView = view.findViewById<TextView>(R.id.sheetReaction)
+        reactionView.setText(react)
+        val copyReaction = view.findViewById<TextView>(R.id.copyReaction)
+        val balanceReaction = view.findViewById<TextView>(R.id.balanceReaction)
+
+        if (!isPro) {
+            // Non-Pro: disable options and prompt upgrade
+            copyReaction.isEnabled = false
+            balanceReaction.isEnabled = false
+            copyReaction.alpha = 0.5f
+            balanceReaction.alpha = 0.5f
+
+            view.setOnClickListener {
+//                if (context is Searcher_Activity) {
+//                    context.inapp_prompt()
+//                }
+                dialog.dismiss()
+            }
+
+        } else {
+            // Set dynamic labels if needed
+            copyReaction.text = copyLabel
+            balanceReaction.text = balLabel
+
+            copyReaction.setOnClickListener {
+                copyToClipboard(context, "Reaction", react)
+//                if (context is Searcher_Activity) {
+//                    context.log_tap_pro("copies", react)
+//                }
+                dialog.dismiss()
+            }
+
+            balanceReaction.setOnClickListener {
+                try {
+                    val strC = react.toCharArray()
+                    var i = 0
+                    while (i < strC.size && !strC[i].isLetter()) {
+                        strC[i] = ' '
+                        i++
+                    }
+                    val cleaned = String(strC)
+
+                    val data = Intent().apply {
+                        putExtra("eqn", cleaned)
+                    }
+//                    (context as? Activity)?.setResult(Activity.RESULT_OK, data)
+//                    context.finish()
+
+                } catch (_: Exception) {
+                    Toast.makeText(context, "Failed to send reaction", Toast.LENGTH_SHORT).show()
+                }
+                dialog.dismiss()
+            }
+        }
+
+        dialog.show()
+    }
+
+    private fun showMassBottomSheet(
+        context: Context,
+        mass: String,
+        name: String,
+        formula: String,
+        isPro: Boolean
+    ) {
+        val dialog = BottomSheetDialog(context)
+        val view = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_mass, null)
+        dialog.setContentView(view)
+
+        val copyMass = view.findViewById<TextView>(R.id.copyMass)
+        val copyFormulaMass = view.findViewById<TextView>(R.id.copyFormulaMass)
+        val copyName = view.findViewById<TextView>(R.id.copyName)
+
+        if (!isPro) {
+            // Disable all options and show prompt if not Pro
+            copyMass.isEnabled = false
+            copyFormulaMass.isEnabled = false
+            copyName.isEnabled = false
+
+            copyMass.alpha = 0.5f
+            copyFormulaMass.alpha = 0.5f
+            copyName.alpha = 0.5f
+
+            view.setOnClickListener {
+//                if (context is mass_finder) {
+//                    context.inapp_prompt()
+//                }
+                dialog.dismiss()
+            }
+
+        } else {
+            // Pro users: set click listeners
+            copyMass.setOnClickListener {
+                copyToClipboard(context, "Mass", mass)
+                dialog.dismiss()
+            }
+
+            copyFormulaMass.setOnClickListener {
+                copyToClipboard(context, "Formula + Mass", "$formula : $mass")
+                dialog.dismiss()
+            }
+
+            copyName.setOnClickListener {
+                copyToClipboard(context, "Name", name)
+                dialog.dismiss()
+            }
+        }
+
+        dialog.show()
     }
     private fun ReactionTextFormatter(equation: String): SpannableString
     {   val stringMakers= StringMakers()

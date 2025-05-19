@@ -53,7 +53,7 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Equation : "
+                    android:text="@string/equation"
                     android:elevation="5sp"
                     android:layout_weight="0.7"
                     />
@@ -61,7 +61,7 @@
                     android:id="@+id/textViewExample"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Examples ?"
+                    android:text="@string/examples_label"
                     android:elevation="5sp"
                     android:textStyle="italic"
                     android:layout_weight="0.1"
@@ -161,7 +161,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5sp"
             android:layout_marginTop="16dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:cardCornerRadius="12dp"
             app:cardElevation="5sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -186,7 +186,7 @@
                     android:text="Input:"
                     android:textAlignment="center"
                     android:textSize="12sp"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <TextView
 
@@ -205,7 +205,7 @@
                     android:text="@string/tap_eqn"
                     android:textAlignment="center"
                     android:textSize="16sp"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <TextView
 
@@ -240,7 +240,7 @@
                         android:autoSizeTextType="uniform"
                         android:padding="16dp"
                         android:textAlignment="center"
-                        android:background="@color/box_back"
+                        android:background="@color/box_back_main"
                         android:textColor="@color/text_color_primary"
                         android:textSize="20sp" />
                 </androidx.cardview.widget.CardView>
@@ -381,6 +381,7 @@
                     android:layout_margin="5sp"
                     android:id="@+id/stochCard"
                     app:cardCornerRadius="5sp"
+                    android:padding="5dp"
                     app:cardElevation="5sp">
                     <LinearLayout
                         android:layout_width="match_parent"

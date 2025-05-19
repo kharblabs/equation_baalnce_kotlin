@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.mikephil.charting.data.PieEntry
+import com.kharblabs.equationbalancer2.chemicalPlant.Balancer
 import com.kharblabs.equationbalancer2.chemicalPlant.ChemUtils
 import com.kharblabs.equationbalancer2.chemicalPlant.ElementColors
 import com.kharblabs.equationbalancer2.dataManagers.StringMakers
@@ -35,6 +36,11 @@ class GalleryViewModel : ViewModel() {
                 pieEntries.value= chemUtils.getMoleculeMassPieChart(s) as ArrayList<PieEntry>?
 
             }
+            else
+            {
+                massLive.value= " :    0.00  gm/mol"
+                moleculeName.value=formatMoleculeName(s,"#2196F3".toColorInt())
+            }
         }
     }
     fun formatMoleculeName(
@@ -42,8 +48,9 @@ class GalleryViewModel : ViewModel() {
         digitColor: Int? = null,
     ): SpannableStringBuilder {
         val result = SpannableStringBuilder()
-
-        val colorMap= ElementColors().elementColors
+        val regex = "(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)"
+        val atoms = ChemUtils().elementParser(moleculeName)
+        val colorMap= ElementColors().assignPastelColors(atoms?.map { it.name })
 
             //  result.append(stringMakers.converttoSpannable(ALS!![i], digitColor))
 
