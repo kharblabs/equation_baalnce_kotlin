@@ -159,6 +159,8 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
                 }
             }
         }*/
+
+        addClickListeners()
         homeViewModel.input_equation.observe(viewLifecycleOwner) {
             outputINputShow.text = it.replace("+"," + ").replace("="," = ")
 
@@ -343,6 +345,8 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
 
         }
 
+
+
     }
 
     private fun showReactionBottomSheet(
@@ -423,7 +427,37 @@ class HomeFragment : Fragment(),MoleculeFragementListner {
     }
     val animator = CollapsibleViewAnimator()
     private var ractantSize = 0
+    fun addClickListeners()
+    {
+        val editText = binding.editText
+        val gridLayout = binding.gridviewButts
 
+        for (i in 0 until gridLayout.childCount) {
+            val child = gridLayout.getChildAt(i)
+            if (child is Button) {
+                child.setOnClickListener { btn ->
+                    buttonTextToEditText(btn as Button, editText)
+                }
+            }
+        }
+        binding.buttoneq.setOnClickListener { buttonTextToEditText(it as Button, editText) }
+        binding.buttonadd.setOnClickListener { buttonTextToEditText(it as Button, editText) }
+        binding.buttonBracketOpen.setOnClickListener { buttonTextToEditText(it as Button, editText) }
+        binding.buttonBracketClose.setOnClickListener { buttonTextToEditText(it as Button, editText) }
+        //binding.eq.setOnClickListener { buttonTextToEditText(it as Button, editText) }
+    }
+    fun buttonTextToEditText(btn : Button, editText: AutoCompleteTextView)
+    {
+        val buttonText = btn.text.toString()
+        val start = editText.selectionStart.coerceAtLeast(0)
+        val end = editText.selectionEnd.coerceAtLeast(0)
+
+        val text = editText.text
+        text.replace(minOf(start, end), maxOf(start, end), buttonText, 0, buttonText.length)
+
+        val newCursorPos = minOf(start, end) + buttonText.length
+        editText.setSelection(newCursorPos)
+    }
     fun showExamples() {
         val limitCheckBox=binding.limitChecker
         val inputTextField=binding.editText
