@@ -29,6 +29,7 @@
     <color name="no_page">@color/colorPrimary</color>
     <color name="text_primary">#111111</color>
     <color name="text_secondary">#666666</color>
+    <color name="link_color">#2222FF</color>
     <!-- Dark text on surface -->
     <color name="colorElementBackground">#F5F5F5</color>    <!-- Light Gray for Elements -->
     <color name="gradient_start">@color/colorPrimary</color>

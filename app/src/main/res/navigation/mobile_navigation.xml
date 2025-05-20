@@ -7,25 +7,25 @@
 
     <fragment
         android:id="@+id/nav_equation"
-        android:name="com.kharblabs.equationbalancer2.ui.EquationBal.HomeFragment"
+        android:name="com.kharblabs.equationbalancer.ui.EquationBal.HomeFragment"
         android:label="Equation"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.kharblabs.equationbalancer2.ui.gallery.GalleryFragment"
+        android:name="com.kharblabs.equationbalancer.ui.gallery.GalleryFragment"
         android:label="Mass"
         tools:layout="@layout/fragment_periodic_table" />
 
     <fragment
         android:id="@+id/nav_molarmass"
-        android:name="com.kharblabs.equationbalancer2.ui.molarMass.peridicTable"
+        android:name="com.kharblabs.equationbalancer.ui.molarMass.peridicTable"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_periodic_table" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.kharblabs.equationbalancer2.ui.oxidation.Oxidation"
+        android:name="com.kharblabs.equationbalancer.ui.oxidation.Oxidation"
         android:label="@string/menu_oxidation"
         tools:layout="@layout/fragment_slideshow" />
 </navigation>

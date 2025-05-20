@@ -82,7 +82,7 @@
     <string name="title_activity_set2_ativity" translatable="false">set2Ativity</string>
     <string name="privacy">Privacy</string>
     <string name="anal" translatable="false">Analytics</string>
-    <string name="anal_details" translatable="false">Tap to view Privacy Policy online. Our app uses Google Firebase to collect additional information about demographics and app usage. This information helps us improve our app. All this information is anonymous and connot be used to identify the user. We do not sell any data to third parties.</string>
+    <string name="anal_details" translatable="false">Our app uses Google Firebase to collect additional information about demographics and app usage. This information helps us improve our app. All this information is anonymous and connot be used to identify the user. We do not sell any data to third parties.</string>
     <string name="ads" translatable="false">Advertisements</string>
     <string name="ads_details" translatable="false">We use advertisements in our app to keep them free for you to use. All our ads are served by Admob. Google might collect personal data depening on your privacy settings.</string>
     <string name="sciencedata" translatable="false">Scientific Data</string>
@@ -480,4 +480,6 @@
     <string name="examples_label">Examples ?</string>
     <string name="equation">Equation :</string>
     <string name="caution_likely_organic_molecule_states_might_be_wrong">Caution Likely Organic Molecule, States might be wrong</string>
+    <string name="find_molar_mass">FIND MOLAR MASS</string>
+    <string name="request_feature">Request Feature</string>
 </resources>

@@ -80,6 +80,13 @@
                     />
             </LinearLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:endIconMode="clear_text"
+
+                    android:padding="4dp">
+
 
             <AutoCompleteTextView
                 android:id="@+id/editText"
@@ -87,79 +94,78 @@
                 android:layout_height="wrap_content"
 
                 android:padding="16sp"
-                android:background="@drawable/light_button_background"
+
                 android:elevation="1dp"
                 android:gravity="top|left"
                 android:inputType="textMultiLine|textCapSentences|textVisiblePassword"
                 android:lines="5"
-                android:drawableEnd="@drawable/baseline_backspace_24"
                 android:maxLines="10"
                 android:minLines="1"
                 android:scrollbars="none"
                 android:text="H2+O2=H2O"
                 android:textSize="20sp"
 
-                android:textColor="#888888"
+                android:textColor="@color/text_primary"
                 android:visibility="visible"
                 tools:ignore="RtlHardcoded" />
-
+                </com.google.android.material.textfield.TextInputLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_margin="4dp"
                 android:orientation="horizontal">
-                <Button
-                    android:id="@+id/buttonadd"
-                    android:layout_width="0sp"
+                <Button android:id="@+id/hist"
+                    android:layout_width="match_parent"
+
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_weight="0.25"
-
-                    android:text="+" />
-
-                <Button
-                    android:id="@+id/buttoneq"
-                    android:layout_width="0sp"
-
+                    android:text="Calculate"
+                    android:visibility="invisible"
+                    />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_clr"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_weight="0.25"
+                    app:icon="@drawable/ic_trash"
 
-                    android:text="=" />
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:layout_marginTop="10sp"
 
-                <Button
-                    android:id="@+id/buttonBracketOpen"
-                    android:layout_width="0sp"
+                    app:cornerRadius="10dp"
+                    app:iconPadding="0dp"
+                    android:elevation="5dp"
+                    android:visibility="visible"
+                    android:layout_marginEnd="10sp"
+                    android:contentDescription="@string/history"/>
+                />
+                <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_histor_eqny"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_history"
 
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_weight="0.25"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:layout_marginTop="10sp"
 
-                    android:text="(" />
-
-                <Button
-                    android:id="@+id/buttonBracketClose"
-                    android:layout_width="0sp"
-
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_weight="0.25"
-
-                    android:text=")" />
+                app:cornerRadius="10dp"
+                app:iconPadding="0dp"
+                android:layout_marginEnd="10sp"
+                android:contentDescription="@string/history"/>
+                />
 
                 <Button
                     android:id="@+id/mainButton"
-                    android:layout_width="0sp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10sp"
                     android:layout_weight="1"
-                    android:background="@drawable/blue_button_background"
+                    android:elevation="10sp"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Button"
+
                     android:padding="5dp"
+
                     android:text="BALANCE"
                     android:textColor="#FFFFFF" />
 
@@ -172,7 +178,7 @@
                 android:text="Input Helpers :"
                 android:layout_marginStart="10dp"
                 android:padding="4dp"
-
+                android:visibility="gone"
                 android:background="@color/box_back"
                 android:elevation="5dp"/>
             <GridLayout
@@ -181,7 +187,73 @@
                 android:layout_gravity="center"
                 android:layout_height="wrap_content"
                 android:id="@+id/gridview_butts">
+                <Button
+                    android:layout_width="52dp"
+                    android:textSize="12sp"
+                    android:padding="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
 
+                    android:textAllCaps="false"
+                    android:backgroundTint="@color/colorPrimaryLight"
+                    android:textColor="@color/text_primary"
+                    android:text="(" />
+                <Button
+                    android:layout_width="52dp"
+                    android:textSize="12sp"
+                    android:padding="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+
+                    android:textAllCaps="false"
+                    android:backgroundTint="@color/colorPrimaryLight"
+                    android:textColor="@color/text_primary"
+                    android:text=")" />
+                <Button
+                    android:layout_width="52dp"
+                    android:textSize="12sp"
+                    android:padding="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+
+                    android:textAllCaps="false"
+                    android:backgroundTint="@color/colorPrimaryLight"
+                    android:textColor="@color/text_primary"
+                    android:text="+" />
+                <Button
+                    android:layout_width="52dp"
+                    android:textSize="12sp"
+                    android:padding="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+
+                    android:textAllCaps="false"
+                    android:backgroundTint="@color/colorPrimaryLight"
+                    android:textColor="@color/text_primary"
+                    android:text="=" />
+
+                <Button
+                    android:layout_width="52dp"
+                    android:textSize="12sp"
+                    android:padding="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:visibility="invisible"
+                    android:textAllCaps="false"
+                    android:backgroundTint="@color/colorPrimaryLight"
+                    android:textColor="@color/text_primary"
+                    android:text="" />
+                <Button
+                    android:layout_width="52dp"
+                    android:textSize="12sp"
+                    android:padding="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:visibility="invisible"
+                    android:textAllCaps="false"
+                    android:backgroundTint="@color/colorPrimaryLight"
+                    android:textColor="@color/text_primary"
+                    android:text="" />
 
                 <Button
                     android:layout_width="52dp"
@@ -404,7 +476,7 @@
                     <Button
                         android:layout_width="52dp"
                         android:layout_height="wrap_content"
-                        android:text="NO₃"
+                        android:text="NO3"
                         android:textSize="12sp"
                         android:padding="0dp"
                         android:layout_marginStart="4dp"
@@ -426,7 +498,7 @@
                     <Button
                         android:layout_width="52dp"
                         android:layout_height="wrap_content"
-                        android:text="CO₃"
+                        android:text="CO3"
                         android:textSize="12sp"
                         android:padding="0dp"
                         android:layout_marginStart="4dp"
@@ -437,7 +509,7 @@
                     <Button
                         android:layout_width="52dp"
                         android:layout_height="wrap_content"
-                        android:text="NH₄"
+                        android:text="NH4"
                         android:textSize="12sp"
                         android:padding="0dp"
                         android:layout_marginStart="4dp"
@@ -448,7 +520,7 @@
                     <Button
                         android:layout_width="52dp"
                         android:layout_height="wrap_content"
-                        android:text="PO₄"
+                        android:text="PO4"
                         android:textSize="12sp"
                         android:padding="0dp"
                         android:layout_marginStart="4dp"

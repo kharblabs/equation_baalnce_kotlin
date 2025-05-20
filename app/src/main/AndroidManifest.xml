@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
         android:name=".ChemistryApplication"
@@ -15,6 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EquationBalancer"
         tools:targetApi="31">
+        <activity
+            android:name=".ProModeHandler"
+            android:exported="false" />
+        <activity
+            android:name=".AboutActivity"
+            android:exported="false" />
         <activity
             android:name=".PeriodicTable"
             android:exported="false" />
@@ -37,6 +44,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+            android:label="Open Source Licenses"
+            tools:replace="android:label" />
     </application>
 
 </manifest>

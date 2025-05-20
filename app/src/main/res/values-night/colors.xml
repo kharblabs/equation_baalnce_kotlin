@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<color name="colorPrimaryDark">#FF8844</color>           <!-- Brighter Orange for Dark Theme -->
+<color name="colorPrimaryVariant">#FF6622</color>       <!-- Vibrant Orange for Dark Theme -->
+<color name="colorPrimaryLight">#FF9966</color>          <!-- Light Orange for Dark Theme -->
+<color name="colorAccent">#FFAA77</color>                <!-- Softer Orange for Dark Theme -->
+<color name="colorBackground">#222222</color>            <!-- Dark Background -->
+<color name="colorBackgroundGradientStart">#1A1A1A</color>
+<color name="colorBackgroundGradientEnd">#2D2D2D</color>
+<color name="colorSurface">#333333</color>               <!-- Dark Surface -->
+<color name="colorOnPrimary">#333333</color>             <!-- Dark text on primary -->
+<color name="colorOnSurface">#F1F1F1</color>
+    <color name="no_page">@color/colorPrimary</color>
+    <color name="keyboard">#333333</color>
+    <color name="text_secondary">#999999</color>
+    <color name="text_primary">#F1F1F1</color><!-- Light text on surface -->
+<color name="colorElementBackground">#444444</color>     <!-- Dark Gray for Elements -->
+    <color name="gradient_start">@color/colorPrimaryDark</color>
+    <color name="gradient_end">#444444</color>
+    <color name="text_color_primary">#111111</color>
+
+    <color name="highlight_color_search_by_products">#4bf7ff00</color>
+    <color name="highlight_color_search_by_reagents">#232307</color>
+    <color name="box_back">@color/colorBackground</color>
+</resources>

@@ -11,29 +11,34 @@
     android:clickable="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
 
     <TextView
         android:textSize="18sp"
         android:layout_margin="2dp"
         android:id="@+id/text_data_entry_row"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+    android:layout_weight="1"
         android:layout_height="wrap_content"
         android:textIsSelectable="false" />
 
     <TextView
         android:textSize="12sp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:textColor="#e86d6d"
-        android:background="@color/box_back"
+        android:layout_weight="1"
         android:id="@+id/text_data_entry_row_mass"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textIsSelectable="false" />
-
+    </LinearLayout>
     <TextView
         android:textSize="12sp"
-        android:layout_marginLeft="20dp"
-        android:background="@color/box_back"
+        android:layout_marginStart="20dp"
         android:id="@+id/text_data_entry_row_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

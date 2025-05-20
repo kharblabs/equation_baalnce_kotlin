@@ -4,22 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_marginTop="2sp"
     android:padding="16dp">
 
     <TextView
         android:id="@+id/copyMass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Copy Mass"
+        android:text="Copy Formula"
         android:padding="12dp"
+        android:textColor="@color/text_primary"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
     <TextView
         android:id="@+id/copyFormulaMass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Copy Formula + Mass"
+        android:text="Copy Mass"
         android:padding="12dp"
+        android:textColor="@color/text_primary"
+
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
     <TextView
@@ -28,6 +32,8 @@
         android:layout_height="wrap_content"
         android:text="Copy Name"
         android:padding="12dp"
+        android:textColor="@color/text_primary"
+
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
 </LinearLayout>

@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.kharblabs.equationbalancer2"
+    namespace = "com.kharblabs.balancer.equationbalancer"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.kharblabs.equationbalancer2"
+        applicationId = "com.kharblabs.balancer.equationbalancer"
         minSdk = 28
         targetSdk = 35
         versionCode = 1
@@ -26,6 +26,12 @@ android {
                 "proguard-rules.pro"
             )
         }
+        debug {
+
+            applicationIdSuffix = ".dev"
+            buildConfigField( "String", "BUILD_VARIANT", "\"dev\"")
+
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -36,6 +42,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -58,12 +65,19 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.preference)
     implementation(libs.piechart)
+    implementation("com.google.android.gms:play-services-oss-licenses:17.0.1")
+    val billing_version = "7.1.1"
+
+    implementation("com.android.billingclient:billing:$billing_version")
+    implementation("com.android.billingclient:billing-ktx:$billing_version")
+    implementation("com.google.android.gms:play-services-ads-identifier:18.0.1")
     testImplementation(libs.junit)
     testImplementation(libs.junit.junit)
     val room_version = "2.7.1"
     implementation("androidx.room:room-runtime:$room_version")
     implementation("com.squareup.picasso:picasso:2.8")
     implementation( "com.leinardi.android:speed-dial:3.3.0")
+    implementation("com.facebook.android:audience-network-sdk:6.+")
     androidTestImplementation(libs.androidx.junit)
     ksp("androidx.room:room-compiler:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")

@@ -11,7 +11,15 @@
     android:background="@drawable/background_gradient"
     tools:context=".MainActivity">
 
-
+    <LinearLayout
+        android:id="@+id/banner_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:background="@color/box_back"
+        app:layout_constraintTop_toTopOf="parent"
+        />
         <!-- ViewPager2 -->
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager2"
@@ -20,6 +28,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/bottom_nav"
             app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="60dp"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Bottom nav + Settings button -->
