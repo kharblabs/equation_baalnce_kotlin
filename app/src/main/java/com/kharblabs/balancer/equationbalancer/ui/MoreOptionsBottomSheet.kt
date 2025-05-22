@@ -18,6 +18,8 @@ import com.kharblabs.balancer.equationbalancer.AboutActivity
 import androidx.core.net.toUri
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.PurchasesUpdatedListener
+import com.kharblabs.balancer.equationbalancer.BillingActivity
+import com.kharblabs.balancer.equationbalancer.ProModeHandler
 
 class MoreOptionsBottomSheet  : BottomSheetDialogFragment() {
     override fun onCreateView(
@@ -56,8 +58,8 @@ class MoreOptionsBottomSheet  : BottomSheetDialogFragment() {
             Toast.makeText(context, "Share clicked", Toast.LENGTH_SHORT).show()
             dismiss()
         }
-        view.findViewById<MaterialCardView>(R.id.sheet_night).setOnClickListener {
-            toggleNightMode(requireContext())
+        view.findViewById<MaterialCardView>(R.id.sheet_get_pro).setOnClickListener {
+            startActivity(Intent(requireContext(), ProModeHandler::class.java))
             dismiss()
         }
         view.findViewById<MaterialCardView>(R.id.sheet_request_feature).setOnClickListener {
@@ -70,7 +72,7 @@ class MoreOptionsBottomSheet  : BottomSheetDialogFragment() {
             startActivity(Intent.createChooser(intent, "Send Feature list Email"))
             dismiss()
         }
-        view.findViewById<MaterialCardView>(R.id.sheet_get_pro).setOnClickListener {
+        view.findViewById<MaterialCardView>(R.id.sheet_night).setOnClickListener {
             toggleNightMode(requireContext())
             dismiss()
         }

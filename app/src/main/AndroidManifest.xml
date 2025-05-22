@@ -17,6 +17,9 @@
         android:theme="@style/Theme.EquationBalancer"
         tools:targetApi="31">
         <activity
+            android:name=".BillingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProModeHandler"
             android:exported="false" />
         <activity

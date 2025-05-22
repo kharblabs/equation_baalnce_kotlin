@@ -10,10 +10,10 @@ android {
 
     defaultConfig {
         applicationId = "com.kharblabs.balancer.equationbalancer"
-        minSdk = 28
+        minSdk = 30
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 75
+        versionName = "3.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -28,7 +28,7 @@ android {
         }
         debug {
 
-            applicationIdSuffix = ".dev"
+         //   applicationIdSuffix = ".dev"
             buildConfigField( "String", "BUILD_VARIANT", "\"dev\"")
 
         }
@@ -65,10 +65,13 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.preference)
     implementation(libs.piechart)
-    implementation("com.google.android.gms:play-services-oss-licenses:17.0.1")
-    val billing_version = "7.1.1"
+    val lifecycle_version = "2.5.1"
 
-    implementation("com.android.billingclient:billing:$billing_version")
+    implementation("androidx.lifecycle:lifecycle-common:2.4.1")
+
+    implementation("com.google.android.gms:play-services-oss-licenses:17.0.1")
+    val billing_version = "6.2.1"
+
     implementation("com.android.billingclient:billing-ktx:$billing_version")
     implementation("com.google.android.gms:play-services-ads-identifier:18.0.1")
     testImplementation(libs.junit)
